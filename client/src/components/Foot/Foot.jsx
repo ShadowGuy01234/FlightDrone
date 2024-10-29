@@ -1,15 +1,13 @@
-import React from 'react'
- 
+import React from 'react';
 
 const Footer = () => {
   return (
-    <>
-    
     <footer className="bg-white shadow-lg p-6">
       <div className="container mx-auto">
-        <div className="flex justify-between items-center">
+        {/* Main Content */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
           {/* Logo and Name */}
-          <div className="flex items-center">
+          <div className="flex items-center mb-4 md:mb-0">
             <img
               src="https://flowbite.com/logo.svg" // Replace this with your logo
               alt="Logo"
@@ -19,7 +17,7 @@ const Footer = () => {
           </div>
 
           {/* Links */}
-          <div className="flex space-x-8">
+          <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-8">
             {/* About Section */}
             <div>
               <h3 className="font-bold mb-2">ABOUT</h3>
@@ -74,11 +72,11 @@ const Footer = () => {
         </div>
 
         {/* Bottom Section */}
-        <div className="mt-6 border-t pt-4 flex justify-between items-center text-gray-500">
+        <div className="mt-6 border-t pt-4 flex flex-col md:flex-row justify-between items-center text-gray-500">
           <p>© 2024 YourBrand™</p>
 
           {/* Social Media Icons */}
-          <div className="flex space-x-4">
+          <div className="flex space-x-4 mt-4 md:mt-0">
             <a href="#facebook" className="hover:text-gray-700">
               <i className="fab fa-facebook-f"></i>
             </a>
@@ -98,10 +96,7 @@ const Footer = () => {
         </div>
       </div>
     </footer>
-    </>
   );
 };
 
 export default Footer;
-
-    
