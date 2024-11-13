@@ -1,7 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap");
 
-
-
 .slider-container {
   width: 100%;
   height: 100vh;
@@ -15,16 +13,17 @@
   display: flex;
   align-items: center;
   gap: 21px;
+  overflow-x: auto; /* Allows horizontal scrolling for smaller screens */
 }
 
 .slider-images img {
   width: 100%;
-  height: 60%;
-  object-fit: cover;
+  height: auto; /* Change to auto to maintain aspect ratio */
   border-radius: 6px;
 }
 
 .slider-img {
+  flex: 0 0 auto; /* Prevent flex items from shrinking */
   width: 110px;
   border-radius: 6px;
   cursor: pointer;
@@ -34,18 +33,18 @@
 
 .slider-images .slider-img:first-child,
 .slider-images .slider-img:last-child {
-  height: 480px;
+  height: 40vh; /* Use viewport height for responsiveness */
 }
 
 .slider-images .slider-img:nth-child(2),
 .slider-images .slider-img:nth-child(6) {
-  height: 560px;
+  height: 45vh; /* Adjust heights based on viewport */
 }
 
 .slider-images .slider-img:nth-child(3),
 .slider-images .slider-img:nth-child(4),
 .slider-images .slider-img:nth-child(5) {
-  height: 665px;
+  height: 55vh; /* Adjust heights based on viewport */
 }
 
 .slider-images h1 {
@@ -64,7 +63,7 @@
 
 .details {
   position: absolute;
-  bottom: 360px;
+  bottom: 30%; /* Adjust position for better visibility on smaller screens */
   left: 43px;
 }
 
@@ -93,15 +92,48 @@
 }
 
 .slider-img.active {
-  width: 766px !important;
-  height: 750px !important;
+  width: 766px !important; /* Large image size for active state */
+  height: auto; /* Maintain aspect ratio */
 }
 
 .slider-img.active h1 {
-  display: none;
+  display: none; /* Hide title for active image */
 }
 
 .slider-img.active .details p,
 .slider-img.active .details h2 {
-  display: block;
+  display: block; /* Show details for active image */
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .slider-img {
+    width: 80px; /* Smaller width for mobile */
+  }
+
+  .slider-images .slider-img:first-child,
+  .slider-images .slider-img:last-child {
+    height: 30vh; /* Smaller heights for mobile */
+  }
+
+  .slider-images .slider-img:nth-child(2),
+  .slider-images .slider-img:nth-child(6) {
+    height: 35vh; /* Smaller heights for mobile */
+  }
+
+  .slider-images .slider-img:nth-child(3),
+  .slider-images .slider-img:nth-child(4),
+  .slider-images .slider-img:nth-child(5) {
+    height: 40vh; /* Smaller heights for mobile */
+  }
+
+  .details {
+    bottom: 20%; /* Adjust position for better visibility on mobile */
+    left: 20px; /* Adjust left for better placement */
+  }
+
+  .details h2,
+  .details p {
+    font-size: 18px; /* Smaller font size for mobile */
+  }
 }

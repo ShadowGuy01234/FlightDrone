@@ -12,8 +12,7 @@ import QnA from '../components/QnA/QnA'
 const Home = () => {
   return (
     <div>
-        <Nav/>
-        
+     
         <Hero/>
         
         <Shop/>
