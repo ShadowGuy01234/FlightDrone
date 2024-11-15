@@ -1,15 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types'; // Import PropTypes for type checking
+import PropTypes from 'prop-types';
 import ProductCard from './Card';
-import styles from './ProductGrid.module.css'; // Use CSS module
+import styles from './ProductGrid.module.css'; 
 
 const ProductGrid = ({ products, isLoading, error }) => {
   if (isLoading) {
-    return <div className={styles.loading}>Loading...</div>; // Loading state
+    return <div className={styles.loading}>Loading...</div>; 
   }
 
   if (error) {
-    return <div className={styles.error}>Error loading products. Please try again.</div>; // Error state
+    return <div className={styles.error}>Error loading products. Please try again.</div>; 
   }
 
  
@@ -23,7 +23,7 @@ const ProductGrid = ({ products, isLoading, error }) => {
   );
 };
 
-// Adding prop types for validation
+
 ProductGrid.propTypes = {
   products: PropTypes.arrayOf(
     PropTypes.shape({
@@ -39,11 +39,10 @@ ProductGrid.propTypes = {
   error: PropTypes.string,
 };
 
-// Setting default values for optional props
 ProductGrid.defaultProps = {
   isLoading: false,
   error: null,
-  products: [], // Ensure products is an empty array by default
+  products: [],
 };
 
 export default ProductGrid;

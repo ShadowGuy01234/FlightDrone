@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Nav from './components/Nav/Nav';
-import Home from './pages/Home';
-import Store from './pages/Store';
-=======
 import { useState } from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Login from './Login';
@@ -21,23 +14,12 @@ import Droneparts from './Droneparts';
 import Printing from './Printing';
 import Cart from './Cart';
 
->>>>>>> 0cf79065794ed5810c50a46c9764f6b94a36c3d0
 import './App.css'
 
 function App() {
 
-<<<<<<< HEAD
-  return (
-    
-    <Router>
-      <Nav />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/store" element={<Store />} />
-      </Routes>
-    </Router>
-=======
 
+// added
 
   return (
     <>
@@ -62,7 +44,6 @@ function App() {
     </Router>
         
     </>
->>>>>>> 0cf79065794ed5810c50a46c9764f6b94a36c3d0
   )
 }
 

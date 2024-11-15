@@ -44,7 +44,7 @@ const Navbar = () => {
           <span className="ml-2 text-xl font-bold">FLYTIUM</span>
         </div>
 
-        {/* Desktop Links */}
+        
         <ul className="hidden md:flex space-x-6">
           <li><Link to="/">HOME</Link></li>
           <li><Link to="/about">ABOUT US</Link></li>
@@ -52,7 +52,7 @@ const Navbar = () => {
           <li><Link to="/store">STORE</Link></li>
         </ul>
 
-        {/* Icons and Hamburger Menu */}
+    
         <div className="flex items-center space-x-4 relative">
           <div className="relative">
             <a href="#user" className="text-black" onClick={() => setShowDropdown(!showDropdown)}>
