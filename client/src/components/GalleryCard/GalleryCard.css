@@ -1,0 +1,97 @@
+.carousel-container {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+    overflow: hidden; 
+  }
+  
+  
+  .image-stack {
+    position: relative;
+    width: 50%;
+    height: 80%;
+    perspective: 1000px; 
+  }
+  
+  .image-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 80%;
+    height: 100%;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    transform-origin: left;
+    transform: rotateY(5deg); 
+    opacity: 0;
+  }
+  
+  .image-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+  
+  .active {
+    opacity: 1;
+    transform: rotateY(0deg); 
+  }
+  
+  .inactive {
+    transform: rotateY(-90deg); 
+    opacity: 0;
+  }
+  
+  
+  .carousel-controls {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .carousel-controls .head {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .book-btn {
+    padding: 10px 20px;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin-bottom: 30px;
+  }
+  
+  .book-btn:hover {
+    background-color: #333;
+  }
+  
+  .arrow-controls {
+    display: flex;
+    gap: 30px;
+  }
+  
+  .arrow-btn {
+    background-color: #ddd;
+    border: none;
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 2rem;
+    transition: background-color 0.3s ease;
+  }
+  
+  .arrow-btn:hover {
+    background-color: #bbb;
+  }
+  

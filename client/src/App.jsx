@@ -19,6 +19,7 @@ import './App.css'
 function App() {
 
 
+// added
 
   return (
     <>
@@ -35,7 +36,7 @@ function App() {
         <Route path="Droneparts.jsx" element={<Droneparts/>} />
         <Route path="Battery.jsx" element={<Battery/>} />
         <Route path="Tools.jsx" element={<Tools/>} />
-        <Route path="Store" element={<Store/>} />
+        <Route path="store" element={<Store/>} />
         <Route path="/account" element={<Account/>} />
         <Route path="/Account/Successful2" element={<Successful2/>} />
         <Route path="/contact" element={<Contact/>} />
