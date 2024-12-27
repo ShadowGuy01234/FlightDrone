@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FaShoppingCart } from 'react-icons/fa';
-import './css/Sensor.css';
+import '../../css/Sensor.css';
 
 // Notice we removed the backPath prop since we're using a specific path
 const Droneparts = () => {

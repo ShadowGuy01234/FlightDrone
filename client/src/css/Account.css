@@ -82,7 +82,7 @@
 
 .ac-button-wrapper {
   position: relative;
-  width: 345px;
+  /* width: 345px; */
   height: 45px;
   overflow: hidden;
   border: 2px solid rgb(5, 5, 5);

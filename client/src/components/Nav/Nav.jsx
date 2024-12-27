@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { UserIcon, ShoppingCartIcon } from '@heroicons/react/24/outline';
+import  { useState, useEffect, useRef } from 'react';
+import { UserIcon } from '@heroicons/react/24/outline';
 import { Link } from 'react-router-dom';
 
 const Navbar = () => {
@@ -50,6 +50,7 @@ const Navbar = () => {
           <li><Link to="/about">ABOUT US</Link></li>
           <li><Link to="/services">OUR SERVICES</Link></li>
           <li><Link to="/store">STORE</Link></li>
+          <li><Link to="/store2">all products</Link></li>
         </ul>
 
     
@@ -61,8 +62,8 @@ const Navbar = () => {
             {showDropdown && (
               <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-md z-50">
                 <div className="flex justify-around mt-5 mb-3">
-                  <div className='w-16 h-8 rounded-xl border-2 border-black hover:bg-black hover:text-white cursor-pointer'>Login</div>
-                  <div className='w-16 h-8 rounded-xl border-2 border-black hover:bg-black hover:text-white cursor-pointer'>Sign up</div>
+                  <div className='w-16 h-8 rounded-xl border-2 border-black hover:bg-black hover:text-white cursor-pointer'><a href="/login">login</a></div>
+                  <div className='w-16 h-8 rounded-xl border-2 border-black hover:bg-black hover:text-white cursor-pointer'><a href="/signup">signup</a></div>
                 </div>
                 <ul className="py-2 z-50">
                   <li className="px-4 py-2 hover:bg-gray-100">
@@ -76,9 +77,9 @@ const Navbar = () => {
             )}
           </div>
 
-          <a href="#cart" className="text-black">
+          {/* <a href="#cart" className="text-black">
             <ShoppingCartIcon className="h-6 w-6" />
-          </a>
+          </a> */}
 
           {/* Hamburger Icon for mobile */}
           <button

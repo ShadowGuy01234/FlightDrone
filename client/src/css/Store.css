@@ -66,7 +66,7 @@ h2 {
 
 .updated-store-blackstrip {
   background-color: black;
-  max-width: 1265px;
+  /* max-width: 1265px; */
   height: 30px;
   overflow: hidden;
   color: white;

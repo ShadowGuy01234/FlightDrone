@@ -1,28 +1,37 @@
+// middleware/authMiddleware.js
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
-const protect = async (req, res, next) => {
+// Middleware to protect routes and check for a valid token
+const protect = (req, res, next) => {
   let token;
+
+  // Check if token is provided in the headers
   if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
-    try {
-      token = req.headers.authorization.split(' ')[1];
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      req.user = await User.findById(decoded.id).select('-password');
-      next();
-    } catch (error) {
-      res.status(401).json({ message: 'Not authorized, token failed' });
-    }
-  } else {
-    res.status(401).json({ message: 'Not authorized, no token' });
+    token = req.headers.authorization.split(' ')[1]; // Get token from Bearer <token>
+  }
+
+  if (!token) {
+    return res.status(401).json({ message: 'Not authorized, no token' });
+  }
+
+  try {
+    // Verify token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded; // Attach user info to the request
+    next(); // Proceed to the next middleware or route handler
+  } catch (error) {
+    res.status(401).json({ message: 'Not authorized, token failed' });
   }
 };
 
-const admin = (req, res, next) => {
+// Middleware to check if user is admin
+const isAdmin = (req, res, next) => {
   if (req.user && req.user.isAdmin) {
-    next();
+    next(); // If user is admin, proceed
   } else {
-    res.status(401).json({ message: 'Not authorized as admin' });
+    res.status(403).json({ message: 'Not authorized as an admin' });
   }
 };
 
-module.exports = { protect, admin };
+module.exports = { protect, isAdmin };

@@ -1,4 +1,4 @@
-import React from 'react';
+
 
 const Footer = () => {
   return (
@@ -9,11 +9,11 @@ const Footer = () => {
           {/* Logo and Name */}
           <div className="flex items-center mb-4 md:mb-0">
             <img
-              src="https://flowbite.com/logo.svg" // Replace this with your logo
+              src="/logo.png" // Replace this with your logo
               alt="Logo"
               className="h-10 w-10 mr-3"
             />
-            <span className="text-xl font-bold">YourBrand</span>
+            <span className="text-xl font-bold">Flytium</span>
           </div>
 
           {/* Links */}

@@ -1,6 +1,6 @@
-import React from "react";
+
 import { FaCheckCircle } from "react-icons/fa"; // Importing the green tick icon from react-icons
-import "./css/Successful2.css";
+import "../css/Successful2.css";
 import { Link } from 'react-router-dom';
 
 const Successful2 = () => {
@@ -8,11 +8,11 @@ const Successful2 = () => {
     <div className="su-card-container">
       <div className="su-success-card">
         <FaCheckCircle className="su-checkmark-icon" />
-        <h2 className="su-heading">You have logged in successfully</h2>
+        <h2 className="su-heading">Account Created successfully</h2>
 {/* neeche home page ka link dedo */}
            <div className="su-button-wrapper">
-            <span className="su-btn-text">HOME</span>
-            <Link to="/"><button>HOME</button></Link>
+            <span className="su-btn-text">Login</span>
+            <Link to="/login"><button>Login</button></Link>
           </div>
        {/* <Link to="/" ><button>Home</button></Link> */}
       </div>

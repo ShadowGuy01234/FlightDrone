@@ -2,7 +2,7 @@
 
 
 import React, { useState } from 'react';
-import './css/Contact.css';
+import '../css/Contact.css';
 import { FaUser, FaPhoneAlt, FaEnvelope, FaCommentDots } from 'react-icons/fa';
 import { FaInstagram, FaTwitter, FaFacebook } from 'react-icons/fa';
 

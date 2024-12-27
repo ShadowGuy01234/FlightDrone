@@ -2,7 +2,7 @@ import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FaTrashAlt } from 'react-icons/fa';
-import './css/Cart.css';
+import '../css/Cart.css';
 
 const Cart = () => {
   const { state } = useLocation();

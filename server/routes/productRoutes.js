@@ -1,30 +1,25 @@
+// routes/productRoutes.js
 const express = require('express');
-const Product = require('../models/Product');
-const { protect, admin } = require('../middleware/authMiddleware');
+const { getProducts, createProduct, getProductById, addReview, editReview, deleteReview } = require('../controllers/productController');
+const { isAdmin, protect } = require('../middleware/authMiddleware');
 const router = express.Router();
 
-// Create a new product (admin only)
-router.post('/', protect, admin, async (req, res) => {
-  const { title, description, price, category, imageUrl, stock } = req.body;
-  const product = new Product({ title, description, price, category, imageUrl, stock });
-  const createdProduct = await product.save();
-  res.status(201).json(createdProduct);
-});
+// Route to get all products
+router.get('/', getProducts);
 
-// Get all products
-router.get('/', async (req, res) => {
-  const products = await Product.find();
-  res.json(products);
-});
+// Route to create a new product (Admin only)
+router.post('/', createProduct);
 
-// Get product by ID
-router.get('/:id', async (req, res) => {
-  const product = await Product.findById(req.params.id);
-  if (product) {
-    res.json(product);
-  } else {
-    res.status(404).json({ message: 'Product not found' });
-  }
-});
+// Route to get a single product by ID
+router.get('/:id', getProductById);
+
+// Route to add a review to a product
+router.post('/:productId/reviews', protect, addReview);
+
+// Route to edit a review
+router.put('/:productId/reviews', protect, editReview);
+
+// Route to delete a review
+router.delete('/:productId/reviews/:userId', protect, deleteReview);
 
 module.exports = router;

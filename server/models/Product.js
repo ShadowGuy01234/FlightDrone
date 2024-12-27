@@ -1,11 +1,7 @@
+// models/Product.js
 const mongoose = require('mongoose');
 
-const reviewSchema = new mongoose.Schema({
-  userId: { type: String, required: true },
-  comment: { type: String, required: true },
-  rating: { type: Number, required: true },
-});
-
+// Define the product schema
 const productSchema = new mongoose.Schema({
   title: { type: String, required: true },
   description: { type: String, required: true },
@@ -14,7 +10,15 @@ const productSchema = new mongoose.Schema({
   imageUrl: { type: String },
   stock: { type: Number, default: 0 },
   rating: { type: Number, default: 0 },
-  reviews: [reviewSchema],
+  reviews: [
+    {
+      userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, // Reference to User model
+      comment: { type: String },
+      rating: { type: Number, min: 1, max: 5 }, // Rating between 1 and 5
+      createdAt: { type: Date, default: Date.now },
+    },
+  ],
 });
 
-module.exports = mongoose.model('Product', productSchema);
+const Product = mongoose.model('Product', productSchema);
+module.exports = Product;

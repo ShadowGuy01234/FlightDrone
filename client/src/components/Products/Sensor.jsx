@@ -5,26 +5,26 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FaShoppingCart } from 'react-icons/fa';
-import './css/Sensor.css';
+import '../../css/Sensor.css';
 
 // Notice we removed the backPath prop since we're using a specific path
-const Printing = () => {
+const Sensor = () => {
   const [cartItems, setCartItems] = useState([]);
   const navigate = useNavigate();
 
   const leftCards = [
-    { id: 1, name: "IOT Components", image: "./Image/droneimg.jpg", url: "https://your-link-1.com", rating: 4.5, description: "Best quality IoT components for your projects", price: 99.99 },
-    { id: 2, name: "Sensors", image: "./Image/droneimg.jpg", url: "https://your-link-2.com", rating: 4.0, description: "High-performance sensors for every need", price: 49.99 },
+    { id: 1, name: "DHT 11 sensor", image: "./Image/DHT11new.jpeg", url: "https://your-link-1.com", rating: 4.5, description: "Best quality IoT components for your projects", price: 99.99 },
+    { id: 2, name: "DHT 22 sensor", image: "./Image/dht 22 sensor.jpeg", url: "https://your-link-2.com", rating: 4.0, description: "High-performance sensors for every need", price: 49.99 },
   ];
 
   const rightCards = [
-    { id: 3, name: "Microcontroller Boards", image: "./Image/droneimg.jpg", url: "https://your-link-3.com", rating: 5.0, description: "Latest microcontroller boards for your DIY projects", price: 79.99 },
-    { id: 4, name: "Batteries", image: "./Image/droneimg.jpg", url: "https://your-link-4.com", rating: 4.3, description: "Long-lasting batteries for electronics and drones", price: 29.99 },
+    { id: 3, name: "Temperature sensor(DS18B20)", image: "./Image/temp sensor.jpeg", url: "https://your-link-3.com", rating: 5.0, description: "Latest microcontroller boards for your DIY projects", price: 79.99 },
+    { id: 4, name: "LDR sensor", image: "./Image/Ldr sensor.jpeg", url: "https://your-link-4.com", rating: 4.3, description: "Long-lasting batteries for electronics and drones", price: 29.99 },
   ];
 
   const leftCardsSecondRow = [
-    { id: 5, name: "Drone parts", image: "./Image/droneimg.jpg", url: "https://your-link-5.com", rating: 4.7, description: "Durable drone parts for custom builds", price: 59.99 },
-    { id: 6, name: "Customized Drone", image: "./Image/droneimg.jpg", url: "https://your-link-6.com", rating: 5.0, description: "Fully customized drones tailored to your needs", price: 999.99 },
+    { id: 5, name: "PIR sensor", image: "./Image/pir sensor.jpeg", url: "https://your-link-5.com", rating: 4.7, description: "Durable drone parts for custom builds", price: 59.99 },
+    { id: 6, name: "IR sensor", image: "./Image/ir sensor.jpeg", url: "https://your-link-6.com", rating: 5.0, description: "Fully customized drones tailored to your needs", price: 999.99 },
   ];
 
   const rightCardsSecondRow = [
@@ -136,4 +136,4 @@ const Printing = () => {
   );
 };
 
-export default Printing;
+export default Sensor;

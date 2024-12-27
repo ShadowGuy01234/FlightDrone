@@ -1,21 +1,23 @@
-import { useState } from 'react'
+
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Login from './Login';
-import Account from './Account';
-import Contact from './Contact';
-import Successful from './Successful';
-import Successful2 from './Successful2';
-import Store from './Store';
-import Sensor from './Sensor';
-import Microboard from './Microboard';
-import Tools from './Tools'
-import Battery from './Battery';
-import Droneparts from './Droneparts';
-import Printing from './Printing';
-import Cart from './Cart';
-
+import Login from './pages/Login';
+import Account from './pages/Account';
+import Contact from './pages/Contact';
+import Successful from './pages/Successful';
+import Successful2 from './pages/Successful2';
+import Store from './pages/Store';
+import Store2 from './pages/Store2';
+import Sensor from './components/Products/Sensor';
+import Microboard from './components/Products/Microboard';
+import Tools from './components/Products/Tools'
+import Battery from './components/Products/Battery';
+import Droneparts from './components/Products/Droneparts';
+import Printing from './components/Products/Printing';
+import Cart from './pages/Cart';
+import Home from './pages/Home';
 import './App.css'
-
+import Navbar from './components/Nav/Nav';
+import Footer from './components/Foot/Foot';
 function App() {
 
 
@@ -24,23 +26,27 @@ function App() {
   return (
     <>
         
-      
        <Router>
+      <Navbar/>
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
         <Route path="Successful" element={<Successful/>} />
-        <Route path="srcSensor.jsx" element={<Sensor/>} />
+        <Route path="srcSensor" element={<Sensor/>} />
+        <Route path="/" element={<Home/>} />
+
         <Route path="cart" element={<Cart/>} />
-        <Route path="Microboard.jsx" element={<Microboard/>} />
-        <Route path="Printing.jsx" element={<Printing/>} />
-        <Route path="Droneparts.jsx" element={<Droneparts/>} />
-        <Route path="Battery.jsx" element={<Battery/>} />
-        <Route path="Tools.jsx" element={<Tools/>} />
+        <Route path="Microboard" element={<Microboard/>} />
+        <Route path="Printing" element={<Printing/>} />
+        <Route path="Droneparts" element={<Droneparts/>} />
+        <Route path="Battery" element={<Battery/>} />
+        <Route path="Tools" element={<Tools/>} />
         <Route path="store" element={<Store/>} />
-        <Route path="/account" element={<Account/>} />
+        <Route path="store2" element={<Store2/>} />
+        <Route path="/signup" element={<Account/>} />
         <Route path="/Account/Successful2" element={<Successful2/>} />
         <Route path="/contact" element={<Contact/>} />
       </Routes>
+      <Footer/>
     </Router>
         
     </>
