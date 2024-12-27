@@ -72,7 +72,7 @@ h2 {
 
 .vb-button-container {
   position: relative;
-  width: 300px;
+  /* width: 300px; */
   height: 45px;
   overflow: hidden;
   border: 2px solid rgb(2, 2, 2);

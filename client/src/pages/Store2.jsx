@@ -1,26 +1,26 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import './css/Store.css';
+import '../css/Store.css';
 
 const Store = () => {
   const leftCards = [
     { id: 1, name: "IOT Components", image: "./Image/iot.jpeg", url: "https://your-link-1.com" },
-    { id: 2, name: "Sensors", image: "./Image/sensors.jpeg", url: "src\Sensor.jsx" },
+    { id: 2, name: "Sensors", image: "./Image/sensors.jpeg", url: "src\Sensor" },
   ];
 
   const rightCards = [
-    { id: 3, name: "Microcontroller Boards", image: "./Image/microboards.jpg", url: "Microboard.jsx" },
-    { id: 4, name: "Batteries", image: "./Image/batteries 3.jpeg", url: "Battery.jsx" },
+    { id: 3, name: "Microcontroller Boards", image: "./Image/microboards.jpg", url: "Microboard" },
+    { id: 4, name: "Batteries", image: "./Image/batteries 3.jpeg", url: "Battery" },
   ];
 
   const leftCardsSecondRow = [
-    { id: 5, name: "Drone parts", image: "./Image/drone parts.jpg", url: "Droneparts.jsx" },
+    { id: 5, name: "Drone parts", image: "./Image/drone parts.jpg", url: "Droneparts" },
     { id: 6, name: "Customized Drone", image: "./Image/customized drone.jpg", url: "https://your-link-6.com" },
   ];
 
   const rightCardsSecondRow = [
-    { id: 7, name: "3D-printings", image: "./Image/3d printing.jpg", url: "Printing.jsx" },
-    { id: 8, name: "Tools and equipment", image: "./Image/tools.jpg", url: "Tools.jsx" },
+    { id: 7, name: "3D-printings", image: "./Image/3d printing.jpg", url: "Printing" },
+    { id: 8, name: "Tools and equipment", image: "./Image/tools.jpg", url: "Tools" },
   ];
 
   const leftCardAnimation = {

@@ -1,6 +1,4 @@
 
-import Nav from '../components/Nav/Nav'
-import Foot from '../components/Foot/Foot'
 import Hero from '../components/Hero/Hero'
 import Shop from '../components/Shop/Shop'
 import Ad from '../components/Ad/Ad'
@@ -12,7 +10,7 @@ import QnA from '../components/QnA/QnA'
 const Home = () => {
   return (
     <div>
-     
+    
         <Hero/>
         
         <Shop/>
@@ -27,7 +25,7 @@ const Home = () => {
 
         <QnA/>
 
-        <Foot/>
+ 
 
     </div>
   )
