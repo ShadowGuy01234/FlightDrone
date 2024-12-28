@@ -1,25 +1,16 @@
-// routes/productRoutes.js
-const express = require('express');
-const { getProducts, createProduct, getProductById, addReview, editReview, deleteReview } = require('../controllers/productController');
-const { isAdmin, protect } = require('../middleware/authMiddleware');
+import express from 'express';
+import { createProductContoller, getAllProductsController, getSingleProductController, deleteProductController, updateProductController } from '../controllers/productController.js';
+import { isAdmin, requireSignIn } from '../middleware/authMiddleware.js';
+
+
 const router = express.Router();
 
-// Route to get all products
-router.get('/', getProducts);
+router.post('/create-product', requireSignIn, isAdmin, createProductContoller);
+router.get('/get-product', getAllProductsController);
+router.get('/get-product/:slug', getSingleProductController);
+router.delete('/delete-product/:pid', requireSignIn, isAdmin, deleteProductController);
+router.put('/update-product/:pid', requireSignIn, isAdmin, updateProductController);
 
-// Route to create a new product (Admin only)
-router.post('/', createProduct);
 
-// Route to get a single product by ID
-router.get('/:id', getProductById);
 
-// Route to add a review to a product
-router.post('/:productId/reviews', protect, addReview);
-
-// Route to edit a review
-router.put('/:productId/reviews', protect, editReview);
-
-// Route to delete a review
-router.delete('/:productId/reviews/:userId', protect, deleteReview);
-
-module.exports = router;
+export default router;

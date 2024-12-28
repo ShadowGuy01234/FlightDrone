@@ -1,27 +1,64 @@
-// controllers/orderController.js
-const Order = require('../models/Order');
+import Razorpay from "razorpay";
+import crypto from "crypto";
+import Order from "../models/Order.js"; // Ensure the path to your Order model is correct
 
-// Create a new order
-const createOrder = async (req, res) => {
-  const { userId, products, totalPrice } = req.body;
+const RAZORPAY_KEY = process.env.RAZORPAY_KEY;
+const RAZORPAY_SECRET = process.env.RAZORPAY_SECRET;
 
+const razorpay = new Razorpay({
+  key_id: RAZORPAY_KEY,
+  key_secret: RAZORPAY_SECRET,
+});
+
+// Create Razorpay order
+export const createOrder = async (req, res) => {
   try {
-    const order = new Order({ userId, products, totalPrice });
-    await order.save();
-    res.status(201).json(order);
+    const { amount } = req.body;
+
+    const options = {
+      amount: amount * 100, // Amount in paise
+      currency: "INR",
+      receipt: `receipt_${Date.now()}`,
+    };
+
+    const order = await razorpay.orders.create(options);
+    res.status(200).json({ success: true, order });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ success: false, error: error.message });
   }
 };
 
-// Get all orders (Admin)
-const getOrders = async (req, res) => {
+// Verify payment and store order in DB
+export const verifyPayment = async (req, res) => {
   try {
-    const orders = await Order.find().populate('userId', 'name email');
-    res.status(200).json(orders);
+    const { response, products, buyer, address, totalPrice } = req.body;
+
+    // Verify payment signature
+    const body = response.razorpay_order_id + "|" + response.razorpay_payment_id;
+    const expectedSignature = crypto
+      .createHmac("sha256", RAZORPAY_SECRET)
+      .update(body.toString())
+      .digest("hex");
+
+    if (expectedSignature === response.razorpay_signature) {
+      // Create and save order in DB
+      const newOrder = new Order({
+        products,
+        payment: response,
+        buyer,
+        address,
+        totalPrice,
+        status: "Not Process",
+      });
+
+      await newOrder.save();
+
+      res.status(200).json({ success: true, order: newOrder });
+    } else {
+      res.status(400).json({ success: false, message: "Payment verification failed" });
+    }
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ success: false, error: error.message });
   }
 };
 
-module.exports = { createOrder, getOrders };

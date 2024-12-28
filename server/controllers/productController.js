@@ -1,109 +1,101 @@
-// controllers/productController.js
-const Product = require('../models/Product');
+import slugify from "slugify";
+import Product from "../models/Product.js";
 
-// Get all products
-const getProducts = async (req, res) => {
+export const createProductContoller = async (req, res) => {
   try {
-    const products = await Product.find();
-    res.status(200).json(products);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
-// Create a new product (Admin)
-const createProduct = async (req, res) => {
-  const { title, description, price, category, imageUrl, stock } = req.body;
-
-  try {
-    const product = new Product({ title, description, price, category, imageUrl, stock });
+    const { name, price, description, image, category } = req.body;
+    if (!name || !price || !description || !image) {
+      return res.status(400).send({ message: 'All fields are required' });
+    }
+    const product = new Product({
+      name,
+      price,
+      slug: slugify(name),
+      description,
+      image,
+      category
+    });
     await product.save();
-    res.status(201).json(product);
+    res.status(201).send({
+      success: true,
+      message: 'Product created successfully',
+      product
+    });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).send({ message: 'Error creating product', success: false, error });
   }
-};
+}
 
-// Get a single product
-const getProductById = async (req, res) => {
-  const { id } = req.params;
-
+export const getAllProductsController = async (req, res) => {
   try {
-    const product = await Product.findById(id);
-    if (!product) return res.status(404).json({ message: 'Product not found' });
-    res.status(200).json(product);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+    const products = await Product.find().populate('category').sort({ createdAt: -1 });
+    res.status(200).send({ success: true, products, message: 'Products fetched successfully', count: products.length });
   }
-};
+  catch (error) {
+    console.log(error);
 
-// Add a review to a product
-const addReview = async (req, res) => {
-  const { productId } = req.params;
-  const { userId, comment, rating } = req.body;
+    res.status(500).send({ message: 'Error fetching products', success: false, error });
+  }
+}
 
+export const getSingleProductController = async (req, res) => {
   try {
-    const product = await Product.findById(productId);
-    if (!product) return res.status(404).json({ message: 'Product not found' });
 
-    // Add review
-    product.reviews.push({ userId, comment, rating });
-    product.rating = calculateAverageRating(product.reviews); // Calculate new average rating
+    const product = await Product
+      .findOne({ slug: req.params.slug })
+      .populate('category');
+    if (!product) {
+      return res.status(404).send({ message: 'Product not found' });
+    }
+    res.status(200).send({ success: true, product, message: 'Product fetched successfully' });
+  }
+  catch (error) {
+    console.log(error);
+    res.status(500).send({ message: 'Error fetching product', success: false, error });
+  }
+}
+
+export const updateProductController = async (req, res) => {
+  try {
+
+    const { name, price, description, image, category } = req.body;
+    if (!name || !price || !description || !image) {
+      return res.status(400).send({ message: 'All fields are required' });
+    }
+    const product = await Product.findByIdAndUpdate(req.params.pid);
+    if (!product) {
+      return res.status(404).send({ message: 'Product not found' });
+    }
+    product.name = name;
+    product.price = price;
+    product.description = description;
+    product.image = image;
+    product.category = category;
+    product.slug = slugify(name);
     await product.save();
-
-    res.status(201).json(product);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(200).send({ success: true, message: 'Product updated successfully', product });
   }
-};
+  catch (error) {
+    console.log(error);
+    res.status(500).send({ message: 'Error updating product', success: false, error });
+  }
+}
 
-// Function to calculate average rating
-const calculateAverageRating = (reviews) => {
-  if (reviews.length === 0) return 0;
-  const total = reviews.reduce((sum, review) => sum + review.rating, 0);
-  return total / reviews.length;
-};
-
-// Edit a review (optional)
-const editReview = async (req, res) => {
-  const { productId } = req.params;
-  const { userId, comment, rating } = req.body;
-
+export const deleteProductController = async (req, res) => {
   try {
-    const product = await Product.findById(productId);
-    if (!product) return res.status(404).json({ message: 'Product not found' });
 
-    const review = product.reviews.find(review => review.userId.toString() === userId);
-    if (!review) return res.status(404).json({ message: 'Review not found' });
-
-    review.comment = comment;
-    review.rating = rating;
-    product.rating = calculateAverageRating(product.reviews); // Recalculate average rating
-    await product.save();
-
-    res.status(200).json(product);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+    const product = await Product
+      .findByIdAndDelete(req.params.pid);
+    if (!product) {
+      return res.status(404).send({ message: 'Product not found' });
+    }
+    res.status(200).send({ success: true, message: 'Product deleted successfully' });
   }
-};
-
-// Delete a review
-const deleteReview = async (req, res) => {
-  const { productId, userId } = req.params;
-
-  try {
-    const product = await Product.findById(productId);
-    if (!product) return res.status(404).json({ message: 'Product not found' });
-
-    // Remove review
-    product.reviews = product.reviews.filter(review => review.userId.toString() !== userId);
-    product.rating = calculateAverageRating(product.reviews); // Recalculate average rating
-    await product.save();
-
-    res.status(200).json(product);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+  catch (error) {
+    console.log(error);
+    res.status(500).send({ message: 'Error deleting product', success: false, error });
   }
-};
+}
 
-module.exports = { getProducts, createProduct, getProductById, addReview, editReview, deleteReview };
+
+
