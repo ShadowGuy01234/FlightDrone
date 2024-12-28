@@ -1,34 +1,25 @@
-
-import ItemScroller from '../components/Store-Scroller/ItemScroller';
-import Foot from '../components/Foot/Foot'
-import ProductCard from '../components/StoreProd/ProductCard';
-import ProductGrid from '../components/Store/ProductGrid';
-import MainComponent from '../components/Store/MainCompo';
-import Nav from '../components/Nav/Nav';
-
-
+import ItemScroller from "../components/component/Store-Scroller/ItemScroller";
+import ProductCard from "../components/component/StoreProd/ProductCard";
+import ProductGrid from "../components/component/Store/ProductGrid";
+import MainComponent from "../components/component/Store/MainCompo";
 
 const Store = () => {
-    return (
-        <div>
-         
-            <ItemScroller />
-            <div className='flex flex-wrap justify-around'>
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
-            </div>
+  return (
+    <div>
+      <ItemScroller />
+      <div className="flex flex-wrap justify-around">
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+      </div>
 
-            <section>
-                
-                <ProductGrid />
-                <MainComponent />
-            </section>
+      <section>
+        <ProductGrid />
+        <MainComponent />
+      </section>
+    </div>
+  );
+};
 
-        
-        </div>
-    );
-}
-
-export default Store
+export default Store;

@@ -1,37 +1,36 @@
-// middleware/authMiddleware.js
-const jwt = require('jsonwebtoken');
-const User = require('../models/User');
-
-// Middleware to protect routes and check for a valid token
-const protect = (req, res, next) => {
-  let token;
-
-  // Check if token is provided in the headers
-  if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
-    token = req.headers.authorization.split(' ')[1]; // Get token from Bearer <token>
-  }
-
-  if (!token) {
-    return res.status(401).json({ message: 'Not authorized, no token' });
-  }
-
+import JWT from 'jsonwebtoken';
+import User from '../models/User.js';
+export const requireSignIn = async (req, res, next) => {
   try {
-    // Verify token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded; // Attach user info to the request
-    next(); // Proceed to the next middleware or route handler
-  } catch (error) {
-    res.status(401).json({ message: 'Not authorized, token failed' });
+    const token = req.header('Authorization').replace('Bearer ', '');
+    const decoded = JWT.verify(token, process.env.JWT_SECRET);
+    req.user = decoded;
+    next();
   }
-};
-
-// Middleware to check if user is admin
-const isAdmin = (req, res, next) => {
-  if (req.user && req.user.isAdmin) {
-    next(); // If user is admin, proceed
-  } else {
-    res.status(403).json({ message: 'Not authorized as an admin' });
+  catch (err) {
+    res.status(401).send({ message: 'Please authenticate' });
   }
-};
+}
 
-module.exports = { protect, isAdmin };
+
+export const isAdmin = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user.id);
+    if (user.role !== 1) {
+      return res.status(403).send({
+        success: false,
+        message: 'You are not authorized to access this route'
+
+      });
+    }
+
+    next();
+
+
+  }
+  catch (err) {
+    console.log(err);
+    res.status(500).send({ message: 'Error authorizing user' });
+  }
+}
+

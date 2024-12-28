@@ -1,20 +1,20 @@
-// models/Order.js
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-// Define the order schema
 const orderSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   products: [
     {
-      productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
-      quantity: { type: Number, required: true },
-    },
-  ],
-  totalPrice: { type: Number, required: true },
-  shippingAddress: { type: String }, // New field for shipping address
-  status: { type: String, default: 'Pending' }, // Order status
-  createdAt: { type: Date, default: Date.now },
-});
+      type: mongoose.Schema.Types.ObjectId, ref: 'Product'
 
-const Order = mongoose.model('Order', orderSchema);
-module.exports = Order;
+    }],
+
+  payment: {},
+  buyer: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  address: { type: String },
+  status: { type: String, default: 'Not Process', enum: ['Not Process', 'Processing', 'Shipped', 'delivered', 'cancel '] },
+  totalPrice: { type: Number },
+}, { timestamps: true });
+
+
+const Order = mongoose.model('Orders', orderSchema);
+
+export default Order;

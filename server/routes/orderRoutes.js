@@ -1,13 +1,10 @@
-// routes/orderRoutes.js
-const express = require('express');
-const { createOrder, getOrders } = require('../controllers/orderController');
-const { isAdmin } = require('../middleware/authMiddleware'); // Middleware for admin access
+import express from "express";
+import { createOrder, verifyPayment } from "../controllers/orderController.js";
+import { isAdmin, requireSignIn } from '../middleware/authMiddleware.js';
 const router = express.Router();
 
-// Route to create a new order
-router.post('/', createOrder);
+router.post("/order", requireSignIn, createOrder);
+router.post("/verify", requireSignIn, verifyPayment);
 
-// Route to get all orders (Admin only)
-router.get('/', isAdmin, getOrders);
 
-module.exports = router;
+export default router;

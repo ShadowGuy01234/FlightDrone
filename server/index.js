@@ -1,15 +1,12 @@
 // server.js
-const express = require('express');
-const connectDB = require('./config/db');
-const dotenv = require('dotenv');
-const cors = require('cors');
-
-const authRoutes = require('./routes/authRoutes');
-const productRoutes = require('./routes/productRoutes');
-const orderRoutes = require('./routes/orderRoutes');
-const userRoutes = require('./routes/userRoutes');
-const cartRoutes = require('./routes/cartRoutes');
-const adminOrderRoutes = require('./routes/adminOrderRoutes'); // Import admin order routes
+import express from 'express';
+import connectDB from './config/db.js';
+import dotenv from 'dotenv';
+import cors from 'cors';
+import categoryRoutes from './routes/categoryRoutes.js';
+import authRoutes from './routes/authRoutes.js';
+import productRoutes from './routes/productRoutes.js';
+import orderRoutes from './routes/orderRoutes.js'; // Import admin order routes
 
 // Load environment variables
 dotenv.config();
@@ -23,11 +20,9 @@ app.use(express.json());
 
 // Define routes
 app.use('/api/auth', authRoutes);
-app.use('/api/products', productRoutes);
-app.use('/api/orders', orderRoutes);
-app.use('/api/users', userRoutes);
-app.use('/api/cart', cartRoutes);
-app.use('/api/admin/orders', adminOrderRoutes); // Define admin order routes
+app.use('/api/category', categoryRoutes);
+app.use('/api/product', productRoutes);
+app.use('/api/payment', orderRoutes);
 
 // Start the server
 const PORT = process.env.PORT || 5000;
