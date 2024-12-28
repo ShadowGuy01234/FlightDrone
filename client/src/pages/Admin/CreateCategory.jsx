@@ -100,7 +100,9 @@ const CreateCategory = () => {
           <AdminMenu />
         </div>
         <div className="md:w-3/4 p-4">
-          <h2 className="text-2xl font-bold mb-6 text-center">All Categories</h2>
+          <h2 className="text-2xl font-bold mb-6 text-center">
+            All Categories
+          </h2>
           <form
             onSubmit={updateId ? handleUpdateCategory : handleCreateCategory}
             className="bg-white shadow-md rounded-lg p-6"

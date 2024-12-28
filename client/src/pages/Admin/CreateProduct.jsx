@@ -120,7 +120,10 @@ const CreateProduct = () => {
   }, []);
 
   return (
-    <Layout title="Manage Products" description="Create, Update, and Delete Products">
+    <Layout
+      title="Manage Products"
+      description="Create, Update, and Delete Products"
+    >
       <div className="flex flex-col md:flex-row">
         <div className="md:w-1/4">
           <AdminMenu />
@@ -132,7 +135,9 @@ const CreateProduct = () => {
             className="bg-white shadow-md rounded-lg p-6 mb-6"
           >
             <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2">Product Name</label>
+              <label className="block text-gray-700 text-sm font-bold mb-2">
+                Product Name
+              </label>
               <input
                 type="text"
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
@@ -142,7 +147,9 @@ const CreateProduct = () => {
               />
             </div>
             <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2">Price</label>
+              <label className="block text-gray-700 text-sm font-bold mb-2">
+                Price
+              </label>
               <input
                 type="number"
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
@@ -152,7 +159,9 @@ const CreateProduct = () => {
               />
             </div>
             <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2">Description</label>
+              <label className="block text-gray-700 text-sm font-bold mb-2">
+                Description
+              </label>
               <textarea
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
                 value={description}
@@ -161,7 +170,9 @@ const CreateProduct = () => {
               ></textarea>
             </div>
             <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2">Image URL</label>
+              <label className="block text-gray-700 text-sm font-bold mb-2">
+                Image URL
+              </label>
               <input
                 type="text"
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
@@ -171,7 +182,9 @@ const CreateProduct = () => {
               />
             </div>
             <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2">Category</label>
+              <label className="block text-gray-700 text-sm font-bold mb-2">
+                Category
+              </label>
               <select
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
                 value={category}
@@ -212,7 +225,11 @@ const CreateProduct = () => {
                   <td className="py-3 px-4">{item.price}</td>
                   <td className="py-3 px-4">{item.description}</td>
                   <td className="py-3 px-4">
-                    <img src={item.image} alt={item.name} className="w-16 h-16 object-cover" />
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="w-16 h-16 object-cover"
+                    />
                   </td>
                   <td className="py-3 px-4">{item.category?.name}</td>
                   <td className="py-3 px-4">

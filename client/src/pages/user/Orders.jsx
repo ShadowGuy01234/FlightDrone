@@ -3,7 +3,7 @@ import Layout from "../../components/Layout/Layout";
 import UserMenu from "../../components/Layout/UserMenu";
 import axios from "axios";
 import { useAuth } from "../../Context/auth";
-import { Reactapi } from "../../api";
+import { API_URL } from "../../api";
 import moment from "moment";
 const Orders = () => {
   const [orders, setOrders] = useState([]);
@@ -11,7 +11,7 @@ const Orders = () => {
 
   const getOrders = async () => {
     try {
-      const response = await axios.get(`${Reactapi}/api/auth/getorders`, {
+      const response = await axios.get(`${API_URL}/api/auth/getorders`, {
         headers: {
           Authorization: `Bearer ${auth?.token}`,
         },
@@ -33,57 +33,54 @@ const Orders = () => {
   return (
     <Layout title={"Orders"} description={"Orders"}>
       <div>
-        <div className="container-fluid p-3 m-3">
-          <div className="row">
-            <div className="col-md-3">
-              <UserMenu />
-            </div>
-            <div className="col-md-9">
-              <div className="text-center">All Orders</div>
+        <div className="container mx-auto p-3">
+          <div className="flex flex-col md:flex-row">
+            <div className="w-full md:w-3/4">
+              <div className="text-center text-xl font-bold mb-4">All Orders</div>
               {orders?.map((order, index) => {
                 return (
-                  <div key={index} className="border shadow">
-                    <table className="table">
+                  <div key={index} className="border shadow mb-4">
+                    <table className="min-w-full bg-white">
                       <thead>
                         <tr>
-                          <th scope="col">Order ID</th>
-                          <th scope="col">Status</th>
-                          <th scope="col">Buyer</th>
-                          <th scope="col">Time</th>
-                          <th scope="col">Payment</th>
-                          <th scope="col">Quantity</th>
+                          <th className="py-2 px-4 border-b">Order ID</th>
+                          <th className="py-2 px-4 border-b">Status</th>
+                          <th className="py-2 px-4 border-b">Buyer</th>
+                          <th className="py-2 px-4 border-b">Time</th>
+                          <th className="py-2 px-4 border-b">Payment</th>
+                          <th className="py-2 px-4 border-b">Quantity</th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr>
-                          <td>{index + 1}</td>
-                          <td>{order?.status}</td>
-                          <td>{order?.buyer?.name}</td>
-                          <td>{moment(order?.createdAt).fromNow()}</td>
-                          <td>
+                          <td className="py-2 px-4 border-b">{index + 1}</td>
+                          <td className="py-2 px-4 border-b">{order?.status}</td>
+                          <td className="py-2 px-4 border-b">{order?.buyer?.name}</td>
+                          <td className="py-2 px-4 border-b">{moment(order?.createdAt).fromNow()}</td>
+                          <td className="py-2 px-4 border-b">
                             {order?.payment?.razorpay_payment_id ? (
-                              <span className="text-success">Paid</span>
+                              <span className="text-green-500">Paid</span>
                             ) : (
-                              <span className="text-danger">Pending</span>
+                              <span className="text-red-500">Pending</span>
                             )}
                           </td>
-                          <td>{order?.products?.length}</td>
+                          <td className="py-2 px-4 border-b">{order?.products?.length}</td>
                         </tr>
                       </tbody>
                     </table>
                     {order?.products?.map((item, index) => (
-                      <div key={index} className="row p-2">
-                        <div className="col-md-4">
+                      <div key={index} className="flex p-2 border-t">
+                        <div className="w-1/4">
                           <img
                             src={item.image}
                             alt={item.name}
-                            className="img-fluid"
+                            className="w-full h-auto"
                           />
                         </div>
-                        <div className="col-md-8">
-                          <h4>{item.name}</h4>
+                        <div className="w-3/4 pl-4">
+                          <h4 className="text-lg font-semibold">{item.name}</h4>
                           <p>{item.description}</p>
-                          <p>Price: {item.price}</p>
+                          <p className="font-bold">Price: {item.price}</p>
                         </div>
                       </div>
                     ))}

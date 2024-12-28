@@ -10,7 +10,9 @@ import Cart from "./pages/Cart";
 import Home from "./pages/Home";
 import "./App.css";
 import Pagenotfound from "./pages/Pagenotfound";
+import CartPage from "./pages/CartPage";
 import Footer from "./components/Layout/Foot/Foot";
+import Orders from "./pages/user/Orders";
 function App() {
   // added
 
@@ -24,6 +26,8 @@ function App() {
           <Route path="/" element={<Home />} />
 
           <Route path="/cart" element={<Cart />} />
+          <Route path="/cartpage" element={<CartPage />} />
+          <Route path="/dashboard/user/orders" element={<Orders />} />
 
           <Route path="/store" element={<Store />} />
           <Route path="/signup" element={<Account />} />

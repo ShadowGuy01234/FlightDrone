@@ -5,11 +5,9 @@ import "./index.css";
 import { AuthProvider } from "./Context/auth.jsx";
 import { CartProvider } from "./Context/cart.jsx";
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
-    <AuthProvider>
-      <CartProvider>
-        <App />
-      </CartProvider>
-    </AuthProvider>
-  </StrictMode>
+  <AuthProvider>
+    <CartProvider>
+      <App />
+    </CartProvider>
+  </AuthProvider>
 );

@@ -74,7 +74,7 @@ const Navbar = () => {
             <NavLink to="/store">STORE</NavLink>
           </li>
           <li>
-            <NavLink to="/cart">CART</NavLink>
+            <NavLink to="/cartpage">CART {cart?.length}</NavLink>
           </li>
           {!auth.user ? (
             <li>
@@ -95,15 +95,15 @@ const Navbar = () => {
                       <ul className="py-2 z-50">
                         <li className="px-4 py-2 hover:bg-gray-100">
                           <NavLink
-                            to="/profile"
+                            to="/dashboard/user/orders"
                             className="text-black font-semibold"
                           >
-                         {auth?.user?.name} !
-                          </NavLink> 
+                            {auth?.user?.name} !
+                          </NavLink>
                         </li>
                         <li className="px-4 py-2 hover:bg-gray-100">
                           <NavLink
-                            to="/orders"
+                            to="/dashboard/user/orders"
                             className="text-black font-semibold"
                           >
                             Orders

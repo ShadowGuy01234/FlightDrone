@@ -3,6 +3,7 @@ import User from '../models/User.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { hashPassword, comparePassword } from '../helpers/authHelper.js';
+import Order from '../models/Order.js';
 
 // User registration
 export const registerUser = async (req, res) => {

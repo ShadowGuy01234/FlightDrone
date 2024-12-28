@@ -1,6 +1,6 @@
 // routes/authRoutes.js
 import express from 'express';
-import { registerUser, loginUser, updateProfileController, forgotPasswordController, getAllOrdersController, orderStatusController } from '../controllers/authController.js';
+import { registerUser, loginUser, updateProfileController, forgotPasswordController, getAllOrdersController, orderStatusController, getOrdersController } from '../controllers/authController.js';
 import { requireSignIn, isAdmin } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
@@ -19,7 +19,7 @@ router.get("/admin-auth", requireSignIn, isAdmin, (req, res) => {
     res.status(200).send({ ok: true });
 });
 router.put('/update-profile', requireSignIn, updateProfileController);
-
+router.get("/getorders", requireSignIn, getOrdersController);
 router.get("/all-orders", requireSignIn, isAdmin, getAllOrdersController);
 router.put("/order-status/:orderId", requireSignIn, isAdmin, orderStatusController);
 

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './ProductCard.module.css';
 
-const ProductCard = ({ name, price = 0, discount = 0, image, isSale = false, colorOptions = [], features = [] }) => {
+const ProductCard = ({ name, price , discount , image, isSale = false, colorOptions = [], features = [] }) => {
   const formattedPrice = typeof price === 'number' ? price.toFixed(2) : "0.00";
   const formattedDiscount = typeof discount === 'number' ? discount.toFixed(2) : "0.00";
 
