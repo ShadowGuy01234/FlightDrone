@@ -1,4 +1,4 @@
-import toast from "react-hot-toast";
+import {toast}from "react-toastify";
 import AdminMenu from "../../components/Layout/AdminMenu";
 import Layout from "../../components/Layout/Layout";
 import axios from "axios";

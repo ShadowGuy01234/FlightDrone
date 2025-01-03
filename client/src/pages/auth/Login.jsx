@@ -4,7 +4,7 @@ import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 import "../../css/Login.css";
 import axios from "axios";
-import toast from "react-hot-toast";
+import {toast}from "react-toastify";
 import { API_URL } from "../../api";
 import { useAuth } from "../../Context/auth";
 const Login = () => {
@@ -96,7 +96,7 @@ const Login = () => {
 
         <p className="vb-p1">
           Don’t have an account?{" "}
-          <Link to="/register" className="Vijit">
+          <Link to="/signup" className="Vijit">
             Register here
           </Link>
         </p>

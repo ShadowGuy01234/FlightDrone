@@ -3,10 +3,10 @@ import Layout from "../../components/Layout/Layout";
 import UserMenu from "../../components/Layout/UserMenu";
 import { useState } from "react";
 
-import toast from "react-hot-toast";
+import {toast}from "react-toastify";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Reactapi } from "../../api";
+import { API_URL } from "../../api";
 const Profile = () => {
 
   const Navigate = useNavigate();
@@ -27,7 +27,7 @@ const Profile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`${Reactapi}/api/auth/register`, formData);
+      const res = await axios.post(`${API_URL}/api/auth/register`, formData);
 
       if (res && res.data.success) {
         toast.success(res.data && res.data.message);
