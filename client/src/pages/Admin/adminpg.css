@@ -1,0 +1,17 @@
+.container-admin{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.colm-1{
+    width: 15%;
+    margin-top: 10px;
+}
+
+.colm-2{
+    width: 85%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
