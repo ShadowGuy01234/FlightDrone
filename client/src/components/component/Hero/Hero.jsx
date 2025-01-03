@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import './Hero.css';
 
 const Hero = () => {
   const images = [
@@ -31,7 +32,7 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative bg-black h-screen z-10">
+    <section className="chk">
       <div className="relative overflow-hidden h-full">
         {images.map((image, index) => (
           <div

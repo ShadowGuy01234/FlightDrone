@@ -14,6 +14,7 @@ import Footer from "./components/Layout/Foot/Foot";
 import Orders from "./pages/user/Orders";
 import CheckoutPage from "./pages/CheckoutPage";
 import Dashboard from "./pages/user/Dashboard";
+import AdmDashboard from "./pages/Admin/AdminDashboard"
 
 function App() {
   // added
@@ -23,6 +24,13 @@ function App() {
       <Router>
         <Navbar />
         <Routes>
+
+
+          /****************/
+          <Route path="/dashboard/admin" element={<AdmDashboard />} />
+          /****************/
+
+
           <Route path="/login" element={<Login />} />
           <Route path="/login-success" element={<Successful />} />
           <Route path="/" element={<Home />} />
