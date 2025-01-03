@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Layout from "../../components/Layout/Layout";
 import AdminMenu from "../../components/Layout/AdminMenu";
 import axios from "axios";
-import toast from "react-hot-toast";
+import {toast}from "react-toastify";
 import { Reactapi } from "../../api";
 
 const CreateCategory = () => {

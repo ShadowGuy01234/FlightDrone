@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Layout from "../../components/Layout/Layout";
-import toast from "react-hot-toast";
+import {toast}from "react-toastify";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Reactapi } from "../../api";

@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import stylesgrid from "./ProductGrid.module.css";
 import styles from "./ProductCard.module.css";
-import toast from "react-hot-toast";
+import {toast}from "react-toastify";
 import { useCart } from "../../../Context/cart";
 
 const ProductGrid = ({ products, isLoading, error }) => {

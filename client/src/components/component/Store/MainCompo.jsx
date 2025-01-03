@@ -4,7 +4,7 @@ import ProductGrid from "./ProductGrid";
 import styles from "./MainComponent.module.css";
 import axios from "axios";
 import { API_URL } from "../../../api";
-import toast from "react-hot-toast";
+import {toast}from "react-toastify";
 
 const MainComponent = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);

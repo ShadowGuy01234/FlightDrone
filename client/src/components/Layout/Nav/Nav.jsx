@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { ShoppingCartIcon, UserIcon } from "@heroicons/react/24/outline";
 import { Link, NavLink } from "react-router-dom";
 import { useAuth } from "../../../Context/auth";
-import toast from "react-hot-toast";
+import {toast}from "react-toastify";
 import { useCart } from "../../../Context/cart";
 const Navbar = () => {
   const [isSticky, setIsSticky] = useState(false);
@@ -95,7 +95,7 @@ const Navbar = () => {
                       <ul className="py-2 z-50">
                         <li className="px-4 py-2 hover:bg-gray-100">
                           <NavLink
-                            to="/dashboard/user/orders"
+                            to="/dashboard/user/profile"
                             className="text-black font-semibold"
                           >
                             {auth?.user?.name} !
