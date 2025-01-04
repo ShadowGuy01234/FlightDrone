@@ -21,6 +21,8 @@ import AdminOrders from "./pages/Admin/AdminOrders"
 import Users from "./pages/Admin/Users"
 import AdminRoute from "./components/Routes/AdminRoute";
 import Private from "./components/Routes/Private";
+import ProductDetails from "./pages/ProductDetails";
+
 function App() {
   // added
 
@@ -62,6 +64,7 @@ function App() {
          
         
 
+          <Route path="/product/:slug" element={<ProductDetails />} />
           <Route path="*" element={<Pagenotfound />} />
         </Routes>
         <Footer />
