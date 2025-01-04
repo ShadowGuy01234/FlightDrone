@@ -76,6 +76,7 @@ const Navbar = () => {
           <li>
             <NavLink to="/cartpage">CART {cart?.length}</NavLink>
           </li>
+         
           {!auth.user ? (
             <li>
               <NavLink to="/login">Login</NavLink>
@@ -93,7 +94,21 @@ const Navbar = () => {
                   {showDropdown && (
                     <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-md z-50">
                       <ul className="py-2 z-50">
-                        <li className="px-4 py-2 hover:bg-gray-100">
+
+
+                      {auth?.user?.role==1?
+                      <div>
+                       <li className="px-4 py-2 hover:bg-gray-100">
+                          <NavLink
+                            to="/dashboard/admin"
+                            className="text-black font-semibold"
+                          >
+                            {auth?.user?.name} !
+                          </NavLink>
+                        </li>
+                      </div>:
+                      <div>
+                       <li className="px-4 py-2 hover:bg-gray-100">
                           <NavLink
                             to="/dashboard/user/profile"
                             className="text-black font-semibold"
@@ -109,6 +124,10 @@ const Navbar = () => {
                             Orders
                           </NavLink>
                         </li>
+                      </div>
+                      }
+                    
+                      
                         <li className="px-4 py-2 hover:bg-gray-100">
                           <NavLink
                             to="/login"

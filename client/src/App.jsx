@@ -11,11 +11,16 @@ import "./App.css";
 import Pagenotfound from "./pages/Pagenotfound";
 import CartPage from "./pages/CartPage";
 import Footer from "./components/Layout/Foot/Foot";
-import Orders from "./pages/user/Orders";
 import CheckoutPage from "./pages/CheckoutPage";
-import Dashboard from "./pages/user/Dashboard";
-import AdmDashboard from "./pages/Admin/AdminDashboard"
-
+import Orders from "./pages/user/Orders";
+import Profile from "./pages/user/Profile";
+import AdminDashboard from "./pages/Admin/AdminDashboard"
+import CreateProduct from "./pages/Admin/CreateProduct"
+import CreateCategory from "./pages/Admin/CreateCategory"
+import AdminOrders from "./pages/Admin/AdminOrders"
+import Users from "./pages/Admin/Users"
+import AdminRoute from "./components/Routes/AdminRoute";
+import Private from "./components/Routes/Private";
 function App() {
   // added
 
@@ -26,25 +31,37 @@ function App() {
         <Routes>
 
 
-          /****************/
-          <Route path="/dashboard/admin" element={<AdmDashboard />} />
-          /****************/
+      
 
 
+          <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/login-success" element={<Successful />} />
-          <Route path="/" element={<Home />} />
-
-         
-          <Route path="/cartpage" element={<CartPage />} />
-          <Route path="/dashboard/user/orders" element={<Orders />} />
-          <Route path="/dashboard/user/profile" element={<Dashboard />} />
-
-          <Route path="/store" element={<Store />} />
           <Route path="/signup" element={<Account />} />
           <Route path="/register-success" element={<Successful2 />} />
-          <Route path="/contact" element={<Contact />} />
+          <Route path="/store" element={<Store />} />
           <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/contact" element={<Contact />} />
+          <Route path="/cartpage" element={<CartPage />} />
+          <Route path="/dashboard" element={<Private/>}>
+           <Route path="user/orders" element={<Orders />} />
+           <Route path="user/profile" element={<Profile />} />
+
+          </Route>
+
+         
+          <Route path="/dashboard" element={<AdminRoute/>}> 
+           <Route path="admin" element={<AdminDashboard />} />
+           <Route path="admin/users" element={<Users />} />
+           <Route path="admin/products" element={<CreateProduct />} />
+           <Route path="admin/orders" element={<AdminOrders />} />
+           <Route path="admin/category" element={<CreateCategory />} />
+         </Route>
+       
+  
+         
+        
+
           <Route path="*" element={<Pagenotfound />} />
         </Routes>
         <Footer />

@@ -3,7 +3,7 @@ import Layout from "../../components/Layout/Layout";
 import {toast}from "react-toastify";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Reactapi } from "../../api";
+import { API_URL } from "../../api";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../../Context/auth";
 const Login = () => {
@@ -25,7 +25,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        `${Reactapi}/api/auth/forgot-password`,
+        `${API_URL}/api/auth/forgot-password`,
         formData
       );
       if (res && res.data.success) {
