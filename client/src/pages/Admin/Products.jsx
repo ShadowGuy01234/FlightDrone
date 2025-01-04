@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Layout from "../../components/Layout/Layout";
 import AdminMenu from "../../components/Layout/AdminMenu";
 import axios from "axios";
-import { Reactapi } from "../../api";
+import { API_URL } from "../../api";
 import {toast}from "react-toastify";
 import { NavLink } from "react-router-dom";
 
@@ -11,7 +11,7 @@ const Products = () => {
 
   const getAllProducts = async () => {
     try {
-      const { data } = await axios.get(`${Reactapi}/api/product/get-product`);
+      const { data } = await axios.get(`${API_URL}/api/product/get-product`);
       if (data.success) {
         setProduct(data.products);
         console.log(data);

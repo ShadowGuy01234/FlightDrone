@@ -1,23 +1,35 @@
-
 import Layout from "../../components/Layout/Layout";
 import UserMenu from "../../components/Layout/UserMenu";
-import { useState } from "react";
-
-import {toast}from "react-toastify";
+import { useState, useEffect } from "react";
+import { useAuth } from "../../Context/auth";
+import { toast } from "react-toastify";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import { API_URL } from "../../api";
-const Profile = () => {
+import { FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt, FaEdit, FaTimes } from 'react-icons/fa';
 
-  const Navigate = useNavigate();
+const Profile = () => {
+  const { auth, setAuth } = useAuth();
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editingField, setEditingField] = useState(null);
+  const [loading, setLoading] = useState(false);
+  
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    password: "",
     phone: "",
     address: "",
-    answer:""
   });
+
+  useEffect(() => {
+    if (auth?.user) {
+      setFormData({
+        name: auth.user.name || "",
+        email: auth.user.email || "",
+        phone: auth.user.phone || "",
+        address: auth.user.address || "",
+      });
+    }
+  }, [auth?.user]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -27,139 +39,167 @@ const Profile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`${API_URL}/api/auth/register`, formData);
+      setLoading(true);
+      
+      // Validation
+      if (editingField === 'phone' && !/^\d{10}$/.test(formData.phone)) {
+        toast.error("Please enter a valid 10-digit phone number");
+        return;
+      }
 
-      if (res && res.data.success) {
-        toast.success(res.data && res.data.message);
-        Navigate("/login");
-      } else {
-        toast.error(res.data.message);
+      const { data } = await axios.put(
+        `${API_URL}/api/auth/update-profile`,
+        { [editingField]: formData[editingField] },
+        {
+          headers: {
+            Authorization: `Bearer ${auth?.token}`,
+          },
+        }
+      );
+      console.log(data);
+      
+
+      if (data?.success) {
+        setAuth({ ...auth, user: data.updatedUser });
+        let ls = localStorage.getItem("auth");
+        ls = JSON.parse(ls);
+        ls.user = data.updatedUser;
+        localStorage.setItem("auth", JSON.stringify(ls));
+        toast.success("Profile updated successfully");
+        setShowEditModal(false);
       }
     } catch (error) {
-      console.log("Register Error:", error);
-
-      toast.error("something went wrong");
+      console.log(error);
+      toast.error(error.response?.data?.message || "Error updating profile");
+    } finally {
+      setLoading(false);
     }
+  };
 
-  }
-  return (
-    <Layout title={"Profile"} description={"Profile"}>
-      <div>
-        <div className="container-fluid p-3 m-3">
-          <div className="row">
-            <div className="col-md-3">
-              <UserMenu />
-            </div>
-            <div className="col-md-9">
-            <div className="container col-md-4 offset-md-4">
-        <form onSubmit={handleSubmit}>
-          <div className="mb-3">
-            <label htmlFor="name" className="form-label">
-              Full Name
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="email" className="form-label">
-              Email address
-            </label>
-            <input
-              type="email"
-              className="form-control"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-            <div id="emailHelp" className="form-text">
-              We wll never share your email with anyone else.
-            </div>
-          </div>
-          <div className="mb-3">
-            <label htmlFor="password" className="form-label">
-              Password
-            </label>
-            <input
-              type="password"
-              className="form-control"
-              id="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="phone" className="form-label">
-              Phone
-            </label>
-            <input
-              type="tel"
-              className="form-control"
-              id="phone"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="answer" className="form-label">
-              answer
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="answer"
-              name="answer"
-              placeholder="What is your favourite color?"
-              value={formData.answer}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="address" className="form-label">
-              Address
-            </label>
-            <textarea
-              className="form-control"
-              id="address"
-              name="address"
-              value={formData.address}
-              onChange={handleChange}
-              required
-            ></textarea>
-          </div>
-          <div className="mb-3 form-check">
-            <input
-              type="checkbox"
-              className="form-check-input"
-              id="terms"
-              required
-            />
-            <label className="form-check-label" htmlFor="terms">
-              I agree to the terms and conditions
-            </label>
-          </div>
-          <button type="submit" className="btn btn-primary">
-            Register
+  const InfoCard = ({ label, value, field, canEdit = true }) => (
+    <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-all duration-300">
+      <div className="flex justify-between items-start mb-2">
+        <label className="text-gray-600 font-medium">{label}</label>
+        {canEdit && (
+          <button 
+            onClick={() => {
+              setEditingField(field);
+              setShowEditModal(true);
+            }}
+            className="text-blue-500 hover:text-blue-600 flex items-center gap-1 text-sm"
+          >
+            <FaEdit /> Edit
           </button>
-        </form>
+        )}
       </div>
+      <p className="">{value}</p>
+    </div>
+  );
+
+  return (
+    <Layout title={"Profile"} description={"Manage your profile"}>
+      <div className="min-h-screen bg-gray-50 py-8">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="bg-white rounded-2xl shadow-md overflow-hidden">
+            <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-6">
+              <div className="flex items-center gap-3">
+                <div className="bg-white p-3 rounded-full">
+                  <FaUser className="text-blue-500 text-xl" />
+                </div>
+                <h1 className="text-2xl font-bold text-white">Profile Details</h1>
+              </div>
+            </div>
+
+            <div className="p-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <InfoCard 
+                  label="Full Name"
+                  value={auth?.user?.name}
+                  field="name"
+                />
+                <InfoCard 
+                  label="Email Address"
+                  value={auth?.user?.email}
+                  field="email"
+                  canEdit={false}
+                />
+                <InfoCard 
+                  label="Phone Number"
+                  value={auth?.user?.phone}
+                  field="phone"
+                />
+                <InfoCard 
+                  label="Address"
+                  value={auth?.user?.address}
+                  field="address"
+                />
+              </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Edit Modal */}
+      {showEditModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl max-w-md w-full mx-4 shadow-xl">
+            <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-4 rounded-t-xl flex justify-between items-center">
+              <h3 className="text-xl font-semibold text-white">
+                Edit {editingField.charAt(0).toUpperCase() + editingField.slice(1)}
+              </h3>
+              <button 
+                onClick={() => setShowEditModal(false)}
+                className="text-white hover:text-gray-200"
+              >
+                <FaTimes size={20} />
+              </button>
+            </div>
+            
+            <form onSubmit={handleSubmit} className="p-6">
+              <div className="mb-6">
+                {editingField === 'address' ? (
+                  <textarea
+                    name={editingField}
+                    value={formData[editingField]}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    rows="3"
+                    required
+                  />
+                ) : (
+                  <input
+                    type={editingField === 'phone' ? 'tel' : 'text'}
+                    name={editingField}
+                    value={formData[editingField]}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    required
+                  />
+                )}
+              </div>
+
+              <div className="flex justify-end gap-3">
+                <button
+                  type="button"
+                  onClick={() => setShowEditModal(false)}
+                  className="px-4 py-2 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors flex items-center gap-2"
+                >
+                  {loading ? (
+                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  ) : 'Save Changes'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </Layout>
   );
 };

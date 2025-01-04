@@ -4,6 +4,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { hashPassword, comparePassword } from '../helpers/authHelper.js';
 import Order from '../models/Order.js';
+import Product from '../models/Product.js';
 
 // User registration
 export const registerUser = async (req, res) => {
@@ -116,12 +117,12 @@ export const updateProfileController = async (req, res) => {
   try {
     const { name, email, phone, address, password } = req.body;
     const user
-      = await User.findById(req.user._id);
+      = await User.findById(req.user.id);
     if (!user) {
       return res.status(400).send({ message: 'User not found' });
     }
     const hashedPassword = password ? await hashPassword(password) : undefined;
-    const updatedUser = await User.findByIdAndUpdate(req.user._id, {
+    const updatedUser = await User.findByIdAndUpdate(req.user.id, {
       name: name || user.name,
       password: hashedPassword || user.password,
       phone: phone || user.phone,
@@ -187,3 +188,105 @@ export const orderStatusController = async (req, res) => {
   }
 
 }
+
+export const getAllUsersController = async (req, res) => {
+  try {
+    // Fetch all users but exclude sensitive information
+    const users = await User.find({}, { password: 0, answer: 0 })
+      .sort({ createdAt: -1 }); // Sort by newest first
+    
+    res.status(200).json({ 
+      success: true, 
+      users,
+      total: users.length 
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ 
+      success: false, 
+      message: "Error fetching users",
+      error: error.message 
+    });
+  }
+};
+
+// Optional: Add a controller to get user stats
+export const getUserStatsController = async (req, res) => {
+  try {
+    const totalUsers = await User.countDocuments({});
+    const customerCount = await User.countDocuments({ role: 0 });
+    const adminCount = await User.countDocuments({ role: 1 });
+    
+    // Get new users in last 30 days
+    const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+    const newUsers = await User.countDocuments({
+      createdAt: { $gte: thirtyDaysAgo }
+    });
+
+    res.status(200).json({
+      success: true,
+      stats: {
+        total: totalUsers,
+        customers: customerCount,
+        admins: adminCount,
+        newUsersLastMonth: newUsers
+      }
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Error fetching user statistics",
+      error: error.message
+    });
+  }
+};
+
+export const getDashboardStats = async (req, res) => {
+  try {
+    const totalUsers = await User.countDocuments();
+    const totalProducts = await Product.countDocuments();
+    const totalOrders = await Order.countDocuments();
+    
+    // Get total revenue
+    const orders = await Order.find();
+    const totalRevenue = orders.reduce((acc, order) => acc + order.amount, 0);
+    
+    // Get recent orders
+    const recentOrders = await Order.find()
+      .populate('buyer', 'name')
+      .sort({ createdAt: -1 })
+      .limit(5);
+    
+    // Get monthly revenue for the last 6 months
+    const monthlyRevenue = await Order.aggregate([
+      {
+        $group: {
+          _id: { 
+            month: { $month: "$createdAt" },
+            year: { $year: "$createdAt" }
+          },
+          total: { $sum: "$amount" }
+        }
+      },
+      { $sort: { "_id.year": -1, "_id.month": -1 } },
+      { $limit: 6 }
+    ]);
+
+    res.json({
+      totalUsers,
+      totalProducts,
+      totalOrders,
+      totalRevenue,
+      recentOrders,
+      monthlyRevenue: monthlyRevenue.map(item => item.total)
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ 
+      success: false, 
+      message: "Error fetching dashboard stats",
+      error: error.message 
+    });
+  }
+};

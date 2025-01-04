@@ -22,31 +22,41 @@ const Sidebar = () => {
       <div className="bottom">
         <ul>
           <p className="title">MAIN</p>
+          <Link to="/dashboard/admin" style={{ textDecoration: "none" }}>
           <li>
             <DashboardIcon className="icon" />
             <span>Dashboard</span>
           </li>
+          </Link>
 
           <p className="title">LISTS</p>
-          <Link to="/users" style={{ textDecoration: "none" }}>
+          <Link to="/dashboard/admin/users" style={{ textDecoration: "none" }}>
             <li>
               <Person3OutlinedIcon className="icon" />
               <span>Users</span>
             </li>
           </Link>
+          <Link to="/dashboard/admin/category" style={{ textDecoration: "none" }}>
+            <li>
+              <Person3OutlinedIcon className="icon" />
+              <span>Category</span>
+            </li>
+          </Link>
 
-          <Link to="/products" style={{ textDecoration: "none" }}>
+          <Link to="/dashboard/admin/products" style={{ textDecoration: "none" }}>
             <li>
               <LocalGroceryStoreOutlinedIcon className="icon" />
               <span>Products</span>
             </li>
           </Link>
+          <Link to="/dashboard/admin/orders" style={{ textDecoration: "none" }}>
+            <li>
+              <CreditCardOutlinedIcon className="icon" />
+              <span>Orders</span>
+            </li>
+          </Link>
 
-          <li>
-            <CreditCardOutlinedIcon className="icon" />
-            <span>Orders</span>
-          </li>
-
+        
           <p className="title">CHARTS</p>
           <li>
             <InsertChartOutlinedSharpIcon className="icon" />

@@ -1,6 +1,6 @@
 // routes/authRoutes.js
 import express from 'express';
-import { registerUser, loginUser, updateProfileController, forgotPasswordController, getAllOrdersController, orderStatusController, getOrdersController } from '../controllers/authController.js';
+import { registerUser, loginUser, updateProfileController, forgotPasswordController, getAllOrdersController, orderStatusController, getOrdersController, getAllUsersController, getUserStatsController, getDashboardStats } from '../controllers/authController.js';
 import { requireSignIn, isAdmin } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
@@ -23,5 +23,12 @@ router.get("/getorders", requireSignIn, getOrdersController);
 router.get("/all-orders", requireSignIn, isAdmin, getAllOrdersController);
 router.put("/order-status/:orderId", requireSignIn, isAdmin, orderStatusController);
 
+// Get all users (admin only)
+router.get("/users", requireSignIn, isAdmin, getAllUsersController);
+
+// Get user statistics (admin only)
+router.get("/user-stats", requireSignIn, isAdmin, getUserStatsController);
+
+router.get("/dashboard-stats", requireSignIn, isAdmin, getDashboardStats);
 
 export default router;

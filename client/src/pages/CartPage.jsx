@@ -32,7 +32,7 @@ const Cart = () => {
     let index = myCart.findIndex((item) => item._id === id);
     myCart.splice(index, 1);
     setCart(myCart);
-    localStorage.setItem("PushPakCart", JSON.stringify(myCart));
+    localStorage.setItem("cart", JSON.stringify(myCart));
   };
 
 
@@ -58,7 +58,11 @@ const Cart = () => {
                 animate={{ opacity: 1 }}
                 className="bg-white rounded-lg shadow p-8 text-center"
               >
-                <h2 className="text-xl font-semibold mb-4">Your cart is empty</h2>
+                <div className="flex flex-col items-center">
+                  <img src="/empty-cart.png" alt="Empty Cart" className="w-48 h-48 mb-4 opacity-50" />
+                  <h2 className="text-2xl font-semibold mb-2 text-gray-800">Your cart is empty</h2>
+                  <p className="text-gray-600 mb-4">Add some products to start shopping!</p>
+                </div>
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}

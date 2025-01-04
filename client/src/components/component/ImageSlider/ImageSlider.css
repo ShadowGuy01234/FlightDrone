@@ -67,7 +67,7 @@
 }
 
 input {
-  display: none;
+  /* display: none; */
 }
 
 input:checked + label {
