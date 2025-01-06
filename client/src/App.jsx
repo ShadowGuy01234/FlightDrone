@@ -22,6 +22,8 @@ import Users from "./pages/Admin/Users"
 import AdminRoute from "./components/Routes/AdminRoute";
 import Private from "./components/Routes/Private";
 import ProductDetails from "./pages/ProductDetails";
+import About from "./pages/About";
+import Service from "./pages/Service";
 
 function App() {
   // added
@@ -43,6 +45,8 @@ function App() {
           <Route path="/register-success" element={<Successful2 />} />
           <Route path="/store" element={<Store />} />
           <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/services" element={<Service />} />
         <Route path="/contact" element={<Contact />} />
           <Route path="/cartpage" element={<CartPage />} />
           <Route path="/dashboard" element={<Private/>}>
