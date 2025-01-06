@@ -35,33 +35,39 @@ const Cart = () => {
     localStorage.setItem("cart", JSON.stringify(myCart));
   };
 
-
   return (
     <Layout title="Cart" description="Your shopping cart">
-      <div className="container mx-auto p-4">
-        <motion.div 
+      <div className="container mx-auto p-4 max-w-7xl">
+        <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="flex justify-between items-center mb-4"
+          className="flex justify-between items-center mb-8"
         >
-          <h1 className="text-2xl font-bold">
-            {`Hello ${auth?.user?.name || "Guest"}, Your Cart`}
+          <h1 className="text-3xl font-bold text-gray-800">
+            {`Welcome, ${auth?.user?.name || "Guest"}`}
           </h1>
-      
         </motion.div>
 
-        <div className="flex flex-wrap -mx-2">
-          <div className="w-full md:w-3/4 px-2">
+        <div className="flex flex-col lg:flex-row gap-8">
+          <div className="w-full lg:w-3/4">
             {cart?.length === 0 ? (
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="bg-white rounded-lg shadow p-8 text-center"
+                className="bg-white rounded-xl shadow-sm p-12 text-center"
               >
                 <div className="flex flex-col items-center">
-                  <img src="/empty-cart.png" alt="Empty Cart" className="w-48 h-48 mb-4 opacity-50" />
-                  <h2 className="text-2xl font-semibold mb-2 text-gray-800">Your cart is empty</h2>
-                  <p className="text-gray-600 mb-4">Add some products to start shopping!</p>
+                  <img
+                    src="/empty-cart.png"
+                    alt="Empty Cart"
+                    className="w-48 h-48 mb-4 opacity-50"
+                  />
+                  <h2 className="text-2xl font-semibold mb-2 text-gray-800">
+                    Your cart is empty
+                  </h2>
+                  <p className="text-gray-600 mb-4">
+                    Add some products to start shopping!
+                  </p>
                 </div>
                 <motion.button
                   whileHover={{ scale: 1.05 }}
@@ -73,86 +79,104 @@ const Cart = () => {
                 </motion.button>
               </motion.div>
             ) : (
-              cart?.map((item, index) => (
-                <motion.div
-                  key={item._id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  className="flex flex-wrap mb-4 p-4 bg-white rounded-lg shadow"
-                >
-                  <div className="w-full md:w-1/3">
-                    <img
-                      src={item.image}
-                      alt={item.name}
-                      className="w-full h-48 object-cover rounded"
-                    />
-                  </div>
-                  <div className="w-full md:w-2/3 p-4">
-                    <h4 className="text-xl font-semibold">{item.name}</h4>
-                    <p className="text-gray-600 mb-2">{item.description}</p>
-                    <p className="text-lg font-bold mb-4">₹{item.price}</p>
-                    
-                    <div className="flex items-center gap-4">
-                      <div className="flex items-center gap-2">
-                        <button
-                          onClick={() => updateQuantity(item._id, (item.quantity || 1) - 1)}
-                          className="p-1 rounded-full hover:bg-gray-100"
-                        >
-                          <FiMinus className="w-5 h-5" />
-                        </button>
-                        <span className="w-8 text-center">{item.quantity || 1}</span>
-                        <button
-                          onClick={() => updateQuantity(item._id, (item.quantity || 1) + 1)}
-                          className="p-1 rounded-full hover:bg-gray-100"
-                        >
-                          <FiPlus className="w-5 h-5" />
-                        </button>
+              <div className="space-y-6">
+                {cart?.map((item, index) => (
+                  <motion.div
+                    key={item._id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                    className="flex flex-col md:flex-row gap-6 p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow"
+                  >
+                    <div className="w-full md:w-1/3">
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="w-full h-48 object-cover rounded-lg"
+                      />
+                    </div>
+                    <div className="w-full md:w-2/3 flex flex-col justify-between">
+                      <div>
+                        <h4 className="text-xl font-semibold text-gray-800 mb-2">
+                          {item.name}
+                        </h4>
+                        <p className="text-gray-600 mb-4 line-clamp-2">
+                          {item.description}
+                        </p>
+                        <p className="text-2xl font-bold text-blue-600 mb-4">
+                          ₹{item.price}
+                        </p>
                       </div>
 
-                      <button
-                        onClick={() => removeItem(item._id)}
-                        className="p-2 text-red-500 hover:bg-red-50 rounded-full"
-                      >
-                        <FiTrash2 className="w-5 h-5" />
-                      </button>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3 bg-gray-50 px-4 py-2 rounded-lg">
+                          <button
+                            onClick={() =>
+                              updateQuantity(item._id, (item.quantity || 1) - 1)
+                            }
+                            className="p-1.5 rounded-full hover:bg-gray-200 text-gray-600"
+                          >
+                            <FiMinus className="w-4 h-4" />
+                          </button>
+                          <span className="w-8 text-center font-medium">
+                            {item.quantity || 1}
+                          </span>
+                          <button
+                            onClick={() =>
+                              updateQuantity(item._id, (item.quantity || 1) + 1)
+                            }
+                            className="p-1.5 rounded-full hover:bg-gray-200 text-gray-600"
+                          >
+                            <FiPlus className="w-4 h-4" />
+                          </button>
+                        </div>
+
+                        <button
+                          onClick={() => removeItem(item._id)}
+                          className="p-2 text-red-500 hover:bg-red-50 rounded-full transition-colors"
+                        >
+                          <FiTrash2 className="w-5 h-5" />
+                        </button>
+                      </div>
                     </div>
-                    
-                   
-                  </div>
-                </motion.div>
-              ))
+                  </motion.div>
+                ))}
+              </div>
             )}
           </div>
 
           {cart.length > 0 && (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="w-full md:w-1/4 px-2"
+              className="w-full lg:w-1/4 h-fit"
             >
-              <div className="bg-white rounded-lg shadow p-4">
-                <h2 className="text-xl font-bold mb-4">Cart Summary</h2>
-                <h4 className="text-lg font-semibold mb-4">
-                  Total: {totalPrices()}
-                </h4>
-                <div className="space-y-3">
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={() => navigate("/checkout")}
-                    className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600"
-                  >
-                    Proceed to Checkout
-                  </motion.button>
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={() => navigate("/store")}
-                    className="w-full border border-blue-500 text-blue-500 py-2 rounded-lg hover:bg-blue-50"
-                  >
-                    Add More Items
-                  </motion.button>
+              <div className="bg-white rounded-xl shadow-sm p-6 sticky top-24">
+                <h2 className="text-2xl font-bold mb-6 text-gray-800">
+                  Order Summary
+                </h2>
+                <div className="border-t border-gray-100 py-4">
+                  <h4 className="text-xl font-semibold text-gray-800 mb-6">
+                    Total: {totalPrices()}
+                  </h4>
+                  <div className="space-y-4">
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => navigate("/checkout")}
+                      className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                    >
+                      Proceed to Checkout
+                    </motion.button>
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => navigate("/store")}
+                      className="w-full border-2 border-blue-600 text-blue-600 py-3 rounded-lg hover:bg-blue-50 transition-colors font-medium"
+                    >
+                      Continue Shopping
+                    </motion.button>
+                  </div>
                 </div>
               </div>
             </motion.div>
