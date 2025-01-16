@@ -1,377 +1,189 @@
-/* Base container styles */
-.DIV1, .DIV2, .DIV3, .DIV4 {
-    width: 100%;
-    max-width: 1300px;
-    margin: 0 auto;
-    padding: 20px;
+/* Modern resets and variables */
+:root {
+    --primary-color: #2563eb;
+    --secondary-color: #1e40af;
+    --text-color: #1f2937;
+    --background-light: #ffffff;
+    --background-dark: #111827;
+    --card-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 }
 
-.DIV1 {
-    background-color: white;
-    min-height: 300px;
+.about-container {
+    background-color: var(--background-light);
 }
 
-.DIV2 {
-    background: black;
-    min-height: 300px;
-    position: relative;
+/* Modern Founder Section */
+.founder-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    padding: 4rem 2rem;
 }
 
-.DIV3 {
-    background-color: white;
-    min-height: 300px;
+@media (min-width: 768px) {
+    .founder-section {
+        flex-direction: row;
+        justify-content: space-between;
+    }
 }
 
-.DIV4 {
-    background-color: rgb(0, 0, 0);
-    min-height: 370px;
-}
-
-/* Founder Image Section */
 .ImageFounder {
-    height: 210px;
-    width: 210px;
-    border-radius: 50%;
-    border: 2px solid rgb(8, 8, 8);
-    margin: 0 auto 20px;
-    animation: flipVertical 1.5s linear;
-    transform-style: preserve-3d;
-    perspective: 1000px;
-    overflow: hidden;
-}
-
-@media (min-width: 768px) {
-    .ImageFounder {
-        float: right;
-        margin-left: auto;
-        margin-right: 20px;
-    }
-}
-
-.founder-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
-}
-
-@keyframes flipVertical {
-    from {
-        transform: translateX(200px) rotateY(0deg);
-    }
-    to {
-        transform: translateX(0px) rotateY(1800deg);
-    }
-}
-
-/* Typography */
-h2 {
-    text-align: center;
-    font-size: 30px;
-    margin-top: 10px;
-    font-family: "Bebas Neue", sans-serif;
-}
-
-.description {
-    font-size: 18px;
-    width: 100%;
-    padding: 0 15px;
-    margin: 20px 0;
-    word-spacing: 5px;
-    font-family: "Titillium Web", serif;
-}
-
-@media (min-width: 768px) {
-    .description {
-        width: calc(100% - 250px);
-        float: left;
-        margin-top: -175px;
-    }
-}
-
-.Hi {
-    margin-top: 20px;
-    float: left;
-    margin-left: 8px;
-    font-size: 30px;
-    font-family: "Pacifico", serif;
-}
-
-/* Card Styles */
-.Card1, .Card2, .Card3 {
-    --color: rgb(0, 21, 248);
-    --border-size: 1rem;
-    --bg-color: rgb(16, 16, 16);
     position: relative;
-    background-color: var(--bg-color);
-    width: 90%;
-    max-width: 280px;
-    height: 160px;
-    margin: 20px auto;
-    border-radius: var(--border-size);
-    color: white;
-    display: grid;
-    place-content: center;
-    padding: 3rem 2rem;
-    isolation: isolate;
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
     overflow: hidden;
+    border: 4px solid var(--primary-color);
+    box-shadow: var(--card-shadow);
+    transition: transform 0.3s ease;
+}
+
+.ImageFounder:hover {
+    transform: translateY(-10px);
+}
+
+.founder-content {
+    flex: 1;
+    max-width: 600px;
+}
+
+.quote-icon {
+    font-size: 3rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+/* Modern Cards */
+.cards-container {
+    display: grid;
+    gap: 2rem;
+    padding: 4rem 2rem;
 }
 
 @media (min-width: 768px) {
-    .Card1, .Card2, .Card3 {
-        width: 30%;
-        float: left;
-        margin: 20px 1.66%;
+    .cards-container {
+        grid-template-columns: repeat(3, 1fr);
     }
 }
 
-.Card1::before, .Card2::before, .Card3::before,
-.Card1::after, .Card2::after, .Card3::after {
-    content: "";
-    position: absolute;
+.Card1,
+.Card2,
+.Card3 {
+    background: var(--background-light);
+    border-radius: 1rem;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: var(--card-shadow);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.Card1::before, .Card2::before, .Card3::before {
-    width: 240%;
-    height: 240%;
-    background-image: conic-gradient(
-        var(--color) 0deg,
-        transparent 60deg,
-        transparent 180deg,
-        var(--color) 180deg,
-        transparent 240deg
-    );
-    inset: -70%;
-    z-index: -2;
-    animation: rotate 8s linear infinite;
-}
-
-.Card1::after, .Card2::after, .Card3::after {
-    --inset: 0.25rem;
-    background-color: #000000;
-    inset: var(--inset);
-    border-radius: calc(var(--border-size) - var(--inset));
-    z-index: -1;
-}
-
-@keyframes rotate {
-    to {
-        transform: rotateZ(-360deg);
-    }
-}
-
-.Card1 h2, .Card2 h2, .Card3 h2 {
-    font-family: "Bebas Neue", sans-serif;
-    margin-top: 15px;
-}
-
-.Card1 p, .Card2 p, .Card3 p {
-    font-family: "Titillium Web", serif;
-    margin-top: -10px;
+.card-icon {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
 }
 
 /* Stats Section */
 .stats-container {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    padding: 20px 10px;
-    width: 100%;
-    max-width: 1200px;
-    margin-top: -40px;
+    display: grid;
+    gap: 2rem;
+    padding: 4rem 2rem;
 }
 
 @media (min-width: 768px) {
     .stats-container {
-        flex-direction: row;
-        justify-content: space-around;
-        padding: 40px 20px;
+        grid-template-columns: repeat(3, 1fr);
     }
 }
 
 .stat-card {
-    width: 100%;
-    max-width: 260px;
-    height: 180px;
-    perspective: 1000px;
-    cursor: pointer;
-    margin: 0 auto;
-}
-
-.stat-card-inner {
-    position: relative;
-    width: 100%;
-    height: 100%;
+    background: var(--background-light);
+    border-radius: 1rem;
+    padding: 2rem;
     text-align: center;
-    transition: transform 0.8s;
-    transform-style: preserve-3d;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.3s ease;
 }
 
-.stat-card:hover .stat-card-inner {
-    transform: rotateY(180deg);
-}
-
-.stat-card-front, .stat-card-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    border-radius: 15px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-}
-
-.stat-card-front {
-    background: white;
-    border: 2px solid rgb(0, 21, 248);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.stat-card-back {
-    background: rgb(2, 2, 2);
-    color: white;
-    transform: rotateY(180deg);
+.stat-card:hover {
+    transform: translateY(-10px);
 }
 
 .stat-number {
-    font-size: 36px;
-    font-weight: bold;
-    color: rgb(0, 21, 248);
-    font-family: "Bebas Neue", sans-serif;
-    margin-bottom: 10px;
-}
-
-.stat-label {
-    font-size: 18px;
-    color: #333;
-    font-family: "Titillium Web", serif;
-}
-
-.stat-description {
-    font-size: 16px;
-    font-family: "Titillium Web", serif;
-    line-height: 1.5;
-    padding: 10px;
-}
-
-.stats-heading {
-    text-align: center;
-    font-size: 30px;
-    font-family: "Bebas Neue", sans-serif;
-    margin: 20px 0;
-    width: 100%;
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
 }
 
 /* Team Section */
 .team-container {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-    padding: 20px 10px;
-    width: 100%;
-    max-width: 1200px;
-    margin-top: -40px;
+    display: grid;
+    gap: 2rem;
+    padding: 4rem 2rem;
 }
 
 @media (min-width: 768px) {
     .team-container {
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 20px;
+        grid-template-columns: repeat(4, 1fr);
     }
 }
 
-.team-heading {
-    text-align: center;
-    color: white;
-    font-size: 30px;
-    font-family: "Bebas Neue", sans-serif;
-    padding-top: 20px;
-    margin-bottom: 5px;
-}
-
 .team-card {
-    width: 100%;
-    max-width: 250px;
-    height: 300px;
-    perspective: 1000px;
-    margin: 0 auto;
-}
-
-.team-card-inner {
-    position: relative;
-    width: 100%;
-    height: 100%;
+    background: var(--background-light);
+    border-radius: 1rem;
+    padding: 2rem;
     text-align: center;
-    transition: transform 0.8s;
-    transform-style: preserve-3d;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.3s ease;
 }
 
-.team-image-container {
-    width: 200px;
-    height: 200px;
-    margin: 20px auto;
-    perspective: 1000px;
-    cursor: pointer;
+.team-card:hover {
+    transform: translateY(-10px);
 }
 
-.team-image-container:hover .team-image-inner {
-    transform: rotateY(180deg);
+/* Modern Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-.team-image-inner {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    transition: transform 0.8s;
-    transform-style: preserve-3d;
+.animate-fadeIn {
+    animation: fadeIn 0.6s ease-out forwards;
 }
 
-.team-image-front, .team-image-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    border-radius: 50%;
+/* Additional modern styling */
+h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-color);
+    margin-bottom: 1rem;
 }
 
-.team-image-front {
-    background: white;
-    border: 2px solid rgb(0, 21, 248);
+p {
+    color: var(--text-color);
+    line-height: 1.6;
 }
 
-.team-image-back {
-    background: rgb(0, 21, 248);
-    color: white;
-    transform: rotateY(180deg);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    font-family: "Titillium Web", serif;
-    font-size: 14px;
-    line-height: 1.4;
-    margin-top:10px;
-    height:155px;
-    width:155px;
-
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
 }
 
-.team-name {
-    color: white;
-    font-family: "Bebas Neue", sans-serif;
-    font-size: 24px;
-    margin-top: 10px;
+/* Modern hover effects */
+.hover-lift {
+    transition: transform 0.3s ease;
 }
 
-.team-role {
-    color: rgb(0, 21, 248);
-    font-family: "Titillium Web", serif;
-    font-size: 16px;
-    margin-top: 5px;
+.hover-lift:hover {
+    transform: translateY(-5px);
 }
