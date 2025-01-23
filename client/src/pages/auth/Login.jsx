@@ -4,7 +4,7 @@ import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 import "../../css/Login.css";
 import axios from "axios";
-import {toast}from "react-toastify";
+import toast from "react-hot-toast";
 import { API_URL } from "../../api";
 import { useAuth } from "../../Context/auth";
 const Login = () => {
@@ -30,7 +30,17 @@ const Login = () => {
     try {
       const res = await axios.post(`${API_URL}/api/auth/login`, formData);
       if (res && res.data.success) {
-        toast.success(res.data.message);
+        toast.success(res.data.message, {
+          style: {
+            border: '1px solid #713200',
+            padding: '16px',
+            color: '#713200',
+          },
+          iconTheme: {
+            primary: '#713200',
+            secondary: '#FFFAEE',
+          },
+        });
 
         setAuth({
           user: res.data.user,

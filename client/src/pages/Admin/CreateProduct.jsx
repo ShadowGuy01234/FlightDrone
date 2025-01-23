@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import Layout from "../../components/Layout/Layout";
 import AdminMenu from "../../components/Layout/AdminMenu";
 import axios from "axios";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import { API_URL } from "../../api";
-import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa';
-import { MdClose } from 'react-icons/md';
+import { FaPlus, FaEdit, FaTrash } from "react-icons/fa";
+import { MdClose } from "react-icons/md";
 import { storage } from "../../firebase/config";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
 const CreateProduct = () => {
   const [products, setProducts] = useState([]);
@@ -18,7 +18,7 @@ const CreateProduct = () => {
     price: "",
     description: "",
     image: "",
-    category: ""
+    category: "",
   });
   const [updateId, setUpdateId] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -53,7 +53,7 @@ const CreateProduct = () => {
 
   const handleImageUpload = async (file) => {
     if (!file) return null;
-    
+
     try {
       setIsUploading(true);
       const imageRef = ref(storage, `products/${uuidv4()}-${file.name}`);
@@ -73,7 +73,7 @@ const CreateProduct = () => {
     e.preventDefault();
     try {
       let imageUrl = formData.image;
-      
+
       if (imageFile) {
         imageUrl = await handleImageUpload(imageFile);
         if (!imageUrl) return; // Stop if image upload failed
@@ -81,7 +81,7 @@ const CreateProduct = () => {
 
       const productData = {
         ...formData,
-        image: imageUrl
+        image: imageUrl,
       };
 
       if (updateId) {
@@ -90,7 +90,17 @@ const CreateProduct = () => {
           productData
         );
         if (data.success) {
-          toast.success("Product updated successfully");
+          toast.success("Product updated successfully", {
+            style: {
+              border: '1px solid #713200',
+              padding: '16px',
+              color: '#713200',
+            },
+            iconTheme: {
+              primary: '#713200',
+              secondary: '#FFFAEE',
+            },
+          });
           setUpdateId(null);
         }
       } else {
@@ -99,7 +109,17 @@ const CreateProduct = () => {
           productData
         );
         if (data.success) {
-          toast.success("Product created successfully");
+          toast.success("Product created successfully", {
+            style: {
+              border: '1px solid #713200',
+              padding: '16px',
+              color: '#713200',
+            },
+            iconTheme: {
+              primary: '#713200',
+              secondary: '#FFFAEE',
+            },
+          });
         }
       }
       resetForm();
@@ -107,20 +127,34 @@ const CreateProduct = () => {
       getAllProducts();
     } catch (error) {
       console.log(error);
-      toast.error(updateId ? "Error updating product" : "Error creating product");
+      toast.error(
+        updateId ? "Error updating product" : "Error creating product"
+      );
     }
   };
 
   const handleDeleteProduct = async (id) => {
     try {
-      const confirmed = window.confirm("Are you sure you want to delete this product?");
+      const confirmed = window.confirm(
+        "Are you sure you want to delete this product?"
+      );
       if (!confirmed) return;
 
       const { data } = await axios.delete(
         `${API_URL}/api/product/delete-product/${id}`
       );
       if (data.success) {
-        toast.success("Product deleted successfully");
+        toast.success("Product deleted successfully", {
+          style: {
+            border: '1px solid #713200',
+            padding: '16px',
+            color: '#713200',
+          },
+          iconTheme: {
+            primary: '#713200',
+            secondary: '#FFFAEE',
+          },
+        });
         getAllProducts();
       }
     } catch (error) {
@@ -135,7 +169,7 @@ const CreateProduct = () => {
       price: product.price,
       description: product.description,
       image: product.image,
-      category: product.category._id
+      category: product.category._id,
     });
     setUpdateId(product._id);
     setIsModalOpen(true);
@@ -147,16 +181,16 @@ const CreateProduct = () => {
       price: "",
       description: "",
       image: "",
-      category: ""
+      category: "",
     });
     setUpdateId(null);
   };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -165,11 +199,11 @@ const CreateProduct = () => {
     if (file) {
       setImageFile(file);
       setImagePreview(URL.createObjectURL(file));
-      setFormData(prev => ({ ...prev, image: "" })); // Clear previous image URL
+      setFormData((prev) => ({ ...prev, image: "" })); // Clear previous image URL
     }
   };
 
-  const filteredProducts = products.filter(product =>
+  const filteredProducts = products.filter((product) =>
     product.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -179,16 +213,21 @@ const CreateProduct = () => {
   }, []);
 
   return (
-    <Layout title="Manage Products" description="Create, Update, and Delete Products">
+    <Layout
+      title="Manage Products"
+      description="Create, Update, and Delete Products"
+    >
       <div className="flex flex-col md:flex-row min-h-screen bg-gray-50">
         <div className="md:w-1/4 bg-white shadow-md">
           <AdminMenu />
         </div>
-        
+
         <div className="md:w-3/4 p-6">
           <div className="bg-white rounded-lg shadow-md p-6">
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-gray-800">Products Management</h2>
+              <h2 className="text-2xl font-bold text-gray-800">
+                Products Management
+              </h2>
               <button
                 onClick={() => {
                   resetForm();
@@ -214,16 +253,29 @@ const CreateProduct = () => {
               <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Image</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
-                    <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Image
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Name
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Price
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Category
+                    </th>
+                    <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Actions
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
                   {filteredProducts.map((product) => (
-                    <tr key={product._id} className="hover:bg-gray-50 transition-colors duration-200">
+                    <tr
+                      key={product._id}
+                      className="hover:bg-gray-50 transition-colors duration-200"
+                    >
                       <td className="px-6 py-4 whitespace-nowrap">
                         <img
                           src={product.image}
@@ -273,11 +325,11 @@ const CreateProduct = () => {
             >
               <MdClose size={24} />
             </button>
-            
+
             <h2 className="text-2xl font-bold mb-6 text-gray-800">
               {updateId ? "Update Product" : "Create New Product"}
             </h2>
-            
+
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label className="block text-gray-700 text-sm font-bold mb-2">
@@ -350,7 +402,7 @@ const CreateProduct = () => {
                       htmlFor="image-upload"
                       className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg cursor-pointer hover:bg-gray-200 transition-colors duration-200"
                     >
-                      {formData.image ? 'Change Image' : 'Upload Image'}
+                      {formData.image ? "Change Image" : "Upload Image"}
                     </label>
                     {imagePreview && (
                       <button
@@ -358,7 +410,7 @@ const CreateProduct = () => {
                         onClick={() => {
                           setImageFile(null);
                           setImagePreview("");
-                          setFormData(prev => ({ ...prev, image: "" }));
+                          setFormData((prev) => ({ ...prev, image: "" }));
                         }}
                         className="px-4 py-2 text-red-600 hover:text-red-700 transition-colors duration-200"
                       >
@@ -406,13 +458,27 @@ const CreateProduct = () => {
                   {isUploading ? (
                     <span className="flex items-center space-x-2">
                       <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                          fill="none"
+                        />
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        />
                       </svg>
                       <span>Uploading...</span>
                     </span>
+                  ) : updateId ? (
+                    "Update Product"
                   ) : (
-                    updateId ? "Update Product" : "Create Product"
+                    "Create Product"
                   )}
                 </button>
               </div>

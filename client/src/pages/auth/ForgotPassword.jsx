@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Layout from "../../components/Layout/Layout";
-import {toast}from "react-toastify";
+import toast from "react-hot-toast";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import { API_URL } from "../../api";
@@ -29,7 +29,17 @@ const Login = () => {
         formData
       );
       if (res && res.data.success) {
-        toast.success(res.data.message);
+        toast.success(res.data.message, {
+          style: {
+            border: '1px solid #713200',
+            padding: '16px',
+            color: '#713200',
+          },
+          iconTheme: {
+            primary: '#713200',
+            secondary: '#FFFAEE',
+          },
+        });
 
         navigate("/login");
       } else {

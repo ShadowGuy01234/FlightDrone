@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import stylesgrid from "./ProductGrid.module.css";
 import styles from "./ProductCard.module.css";
-import {toast}from "react-toastify";
+import toast from "react-hot-toast";
 import { useCart } from "../../../Context/cart";
 
 const ProductGrid = ({ products, isLoading, error }) => {
@@ -26,7 +26,17 @@ const ProductGrid = ({ products, isLoading, error }) => {
     try {
       setCart([...cart, product]);
       localStorage.setItem("cart", JSON.stringify([...cart, product]));
-      toast.success("Product Added to Cart");
+      toast.success("Product Added to Cart", {
+        style: {
+          border: '1px solid #713200',
+          padding: '16px',
+          color: '#713200',
+        },
+        iconTheme: {
+          primary: '#713200',
+          secondary: '#FFFAEE',
+        },
+      });
     } catch (error) {
       console.log(error);
       toast.error("Error adding product to cart");

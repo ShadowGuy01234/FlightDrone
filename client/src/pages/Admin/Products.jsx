@@ -3,7 +3,7 @@ import Layout from "../../components/Layout/Layout";
 import AdminMenu from "../../components/Layout/AdminMenu";
 import axios from "axios";
 import { API_URL } from "../../api";
-import {toast}from "react-toastify";
+import toast from "react-hot-toast";
 import { NavLink } from "react-router-dom";
 
 const Products = () => {

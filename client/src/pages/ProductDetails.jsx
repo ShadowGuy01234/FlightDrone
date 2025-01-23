@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { API_URL } from "../api";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import { useCart } from "../Context/cart";
 import { motion } from "framer-motion";
 import { FiMinus, FiPlus, FiShoppingCart, FiArrowLeft } from "react-icons/fi";
@@ -21,7 +21,9 @@ const ProductDetails = () => {
 
   const getProduct = async () => {
     try {
-      const response = await axios.get(`${API_URL}/api/product/get-product/${slug}`);
+      const response = await axios.get(
+        `${API_URL}/api/product/get-product/${slug}`
+      );
       if (response?.data?.success) {
         setProduct(response.data.product);
       }
@@ -34,30 +36,52 @@ const ProductDetails = () => {
   };
 
   const handleIncreaseQuantity = () => {
-    setQuantity(prev => prev + 1);
+    setQuantity((prev) => prev + 1);
   };
 
   const handleDecreaseQuantity = () => {
     if (quantity > 1) {
-      setQuantity(prev => prev - 1);
+      setQuantity((prev) => prev - 1);
     }
   };
 
   const handleAddToCart = () => {
     try {
-      const existingProductIndex = cart.findIndex((item) => item._id === product._id);
+      const existingProductIndex = cart.findIndex(
+        (item) => item._id === product._id
+      );
       let updatedCart;
 
       if (existingProductIndex >= 0) {
         updatedCart = cart.map((item, index) =>
-          index === existingProductIndex 
+          index === existingProductIndex
             ? { ...item, quantity: (item.quantity || 0) + quantity }
             : item
         );
-        toast.success(`Added ${quantity} more ${product.name}(s) to cart`);
+        toast.success(`Added ${quantity} more ${product.name}(s) to cart`, {
+          style: {
+            border: '1px solid #713200',
+            padding: '16px',
+            color: '#713200',
+          },
+          iconTheme: {
+            primary: '#713200',
+            secondary: '#FFFAEE',
+          },
+        });
       } else {
         updatedCart = [...cart, { ...product, quantity }];
-        toast.success(`Added ${quantity} ${product.name}(s) to cart`);
+        toast.success(`Added ${quantity} ${product.name}(s) to cart`, {
+          style: {
+            border: '1px solid #713200',
+            padding: '16px',
+            color: '#713200',
+          },
+          iconTheme: {
+            primary: '#713200',
+            secondary: '#FFFAEE',
+          },
+        });
       }
 
       setCart(updatedCart);
@@ -135,7 +159,9 @@ const ProductDetails = () => {
                 </span>
 
                 {/* Product Title */}
-                <h1 className="text-3xl font-bold text-gray-900">{product.name}</h1>
+                <h1 className="text-3xl font-bold text-gray-900">
+                  {product.name}
+                </h1>
 
                 {/* Price */}
                 <div className="flex items-baseline gap-4">
@@ -168,11 +194,11 @@ const ProductDetails = () => {
                     >
                       <FiMinus className="w-4 h-4" />
                     </button>
-                    
+
                     <span className="w-12 text-center font-medium text-lg">
                       {quantity}
                     </span>
-                    
+
                     <button
                       onClick={handleIncreaseQuantity}
                       className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors"
@@ -185,7 +211,9 @@ const ProductDetails = () => {
                 {/* Total Price */}
                 <div className="pt-4 border-t">
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-600 font-medium">Total Price</span>
+                    <span className="text-gray-600 font-medium">
+                      Total Price
+                    </span>
                     <span className="text-2xl font-bold text-blue-600">
                       ₹{(product.price * quantity).toLocaleString()}
                     </span>
@@ -203,7 +231,7 @@ const ProductDetails = () => {
                     <FiShoppingCart className="w-5 h-5" />
                     Add {quantity} to Cart
                   </motion.button>
-                  
+
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
@@ -217,14 +245,34 @@ const ProductDetails = () => {
                 {/* Additional Info */}
                 <div className="pt-6 space-y-4">
                   <div className="flex items-center gap-2 text-sm text-gray-600">
-                    <svg className="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                    <svg
+                      className="w-5 h-5 text-green-500"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M5 13l4 4L19 7"
+                      />
                     </svg>
                     Free shipping on orders over ₹999
                   </div>
                   <div className="flex items-center gap-2 text-sm text-gray-600">
-                    <svg className="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                    <svg
+                      className="w-5 h-5 text-green-500"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M5 13l4 4L19 7"
+                      />
                     </svg>
                     30-day return policy
                   </div>
@@ -238,4 +286,4 @@ const ProductDetails = () => {
   );
 };
 
-export default ProductDetails; 
+export default ProductDetails;

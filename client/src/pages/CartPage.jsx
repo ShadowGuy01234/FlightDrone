@@ -4,6 +4,7 @@ import { useAuth } from "../Context/auth";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../Context/cart";
 import { FiMinus, FiPlus, FiTrash2 } from "react-icons/fi";
+import toast from "react-hot-toast";
 
 const Cart = () => {
   const { auth } = useAuth();
@@ -33,6 +34,17 @@ const Cart = () => {
     myCart.splice(index, 1);
     setCart(myCart);
     localStorage.setItem("cart", JSON.stringify(myCart));
+    toast.success("Item removed from cart", {
+      style: {
+        border: "1px solid #713200",
+        padding: "16px",
+        color: "#713200",
+      },
+      iconTheme: {
+        primary: "#713200",
+        secondary: "#FFFAEE",
+      },
+    });
   };
 
   return (

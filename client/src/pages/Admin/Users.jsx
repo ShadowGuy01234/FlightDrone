@@ -1,17 +1,26 @@
 import { useEffect, useState } from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import AdminMenu from "../../components/Layout/AdminMenu";
 import Layout from "../../components/Layout/Layout";
 import axios from "axios";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import { API_URL } from "../../api";
 import { useAuth } from "../../Context/auth";
-import { FaUserCircle, FaSearch, FaEnvelope, FaPhone, FaMapMarkerAlt, FaTimes } from 'react-icons/fa';
-import moment from 'moment';
+import {
+  FaUserCircle,
+  FaSearch,
+  FaEnvelope,
+  FaPhone,
+  FaMapMarkerAlt,
+  FaTimes,
+} from "react-icons/fa";
+import moment from "moment";
 
 // StatCard Component with PropTypes
 const StatCard = ({ title, value, bgColor }) => (
-  <div className={`${bgColor} rounded-lg p-6 text-white shadow-md transform transition-transform hover:scale-105`}>
+  <div
+    className={`${bgColor} rounded-lg p-6 text-white shadow-md transform transition-transform hover:scale-105`}
+  >
     <h3 className="text-lg font-semibold mb-2 text-white/90">{title}</h3>
     <p className="text-3xl font-bold">{value}</p>
   </div>
@@ -20,28 +29,36 @@ const StatCard = ({ title, value, bgColor }) => (
 StatCard.propTypes = {
   title: PropTypes.string.isRequired,
   value: PropTypes.number.isRequired,
-  bgColor: PropTypes.string.isRequired
+  bgColor: PropTypes.string.isRequired,
 };
 
 // Modal Component with PropTypes
 const UserModal = ({ user, onClose }) => (
-  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={onClose}>
-    <div className="bg-white rounded-lg p-8 max-w-md w-full m-4 relative shadow-xl" onClick={e => e.stopPropagation()}>
+  <div
+    className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+    onClick={onClose}
+  >
+    <div
+      className="bg-white rounded-lg p-8 max-w-md w-full m-4 relative shadow-xl"
+      onClick={(e) => e.stopPropagation()}
+    >
       <button
         onClick={onClose}
         className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition-colors"
       >
         <FaTimes size={24} />
       </button>
-      
+
       <div className="text-center mb-6">
         <FaUserCircle className="w-24 h-24 text-gray-400 mx-auto" />
         <h2 className="text-2xl font-bold mt-4">{user.name}</h2>
-        <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
-          user.role === 1 
-            ? "bg-purple-100 text-purple-800" 
-            : "bg-green-100 text-green-800"
-        }`}>
+        <span
+          className={`px-3 py-1 rounded-full text-sm font-semibold ${
+            user.role === 1
+              ? "bg-purple-100 text-purple-800"
+              : "bg-green-100 text-green-800"
+          }`}
+        >
           {user.role === 1 ? "Admin" : "Customer"}
         </span>
       </div>
@@ -49,12 +66,16 @@ const UserModal = ({ user, onClose }) => (
       <div className="space-y-4">
         <InfoRow icon={<FaEnvelope />} label="Email" value={user.email} />
         <InfoRow icon={<FaPhone />} label="Phone" value={user.phone} />
-        <InfoRow icon={<FaMapMarkerAlt />} label="Address" value={user.address} />
-        
+        <InfoRow
+          icon={<FaMapMarkerAlt />}
+          label="Address"
+          value={user.address}
+        />
+
         <div className="pt-4 border-t">
           <p className="text-sm text-gray-500">Member Since</p>
           <p className="text-gray-900 font-medium">
-            {moment(user.createdAt).format('MMMM DD, YYYY')}
+            {moment(user.createdAt).format("MMMM DD, YYYY")}
           </p>
         </div>
       </div>
@@ -69,9 +90,9 @@ UserModal.propTypes = {
     phone: PropTypes.string.isRequired,
     address: PropTypes.string.isRequired,
     role: PropTypes.number.isRequired,
-    createdAt: PropTypes.string.isRequired
+    createdAt: PropTypes.string.isRequired,
   }).isRequired,
-  onClose: PropTypes.func.isRequired
+  onClose: PropTypes.func.isRequired,
 };
 
 // InfoRow Component with PropTypes
@@ -88,7 +109,7 @@ const InfoRow = ({ icon, label, value }) => (
 InfoRow.propTypes = {
   icon: PropTypes.node.isRequired,
   label: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired
+  value: PropTypes.string.isRequired,
 };
 
 const Users = () => {
@@ -140,9 +161,10 @@ const Users = () => {
     getUserStats();
   }, [auth?.token]);
 
-  const filteredUsers = users.filter(user =>
-    user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    user.email.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredUsers = users.filter(
+    (user) =>
+      user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -152,13 +174,15 @@ const Users = () => {
           <div className="md:w-1/4 bg-white shadow-md">
             <AdminMenu />
           </div>
-          
+
           <div className="md:w-3/4 p-6">
             <div className="bg-white rounded-lg shadow-md p-6">
               <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
                 <div className="flex items-center gap-3">
                   <FaUserCircle className="text-blue-500 text-3xl" />
-                  <h1 className="text-2xl font-bold text-gray-800">Users Management</h1>
+                  <h1 className="text-2xl font-bold text-gray-800">
+                    Users Management
+                  </h1>
                 </div>
                 <div className="relative w-full md:w-auto">
                   <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
@@ -174,10 +198,26 @@ const Users = () => {
 
               {stats && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                  <StatCard title="Total Users" value={stats.total} bgColor="bg-gradient-to-r from-blue-500 to-blue-600" />
-                  <StatCard title="Customers" value={stats.customers} bgColor="bg-gradient-to-r from-green-500 to-green-600" />
-                  <StatCard title="Admins" value={stats.admins} bgColor="bg-gradient-to-r from-purple-500 to-purple-600" />
-                  <StatCard title="New Users" value={stats.newUsersLastMonth} bgColor="bg-gradient-to-r from-orange-500 to-orange-600" />
+                  <StatCard
+                    title="Total Users"
+                    value={stats.total}
+                    bgColor="bg-gradient-to-r from-blue-500 to-blue-600"
+                  />
+                  <StatCard
+                    title="Customers"
+                    value={stats.customers}
+                    bgColor="bg-gradient-to-r from-green-500 to-green-600"
+                  />
+                  <StatCard
+                    title="Admins"
+                    value={stats.admins}
+                    bgColor="bg-gradient-to-r from-purple-500 to-purple-600"
+                  />
+                  <StatCard
+                    title="New Users"
+                    value={stats.newUsersLastMonth}
+                    bgColor="bg-gradient-to-r from-orange-500 to-orange-600"
+                  />
                 </div>
               )}
 
@@ -191,16 +231,24 @@ const Users = () => {
                   <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50">
                       <tr>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Joined</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          User
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Contact
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Role
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Joined
+                        </th>
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
                       {filteredUsers.map((user) => (
-                        <tr 
-                          key={user._id} 
+                        <tr
+                          key={user._id}
                           className="hover:bg-gray-50 cursor-pointer transition-colors duration-200"
                           onClick={() => {
                             setSelectedUser(user);
@@ -213,25 +261,33 @@ const Users = () => {
                                 <FaUserCircle className="h-10 w-10 text-gray-400" />
                               </div>
                               <div className="ml-4">
-                                <div className="text-sm font-medium text-gray-900">{user.name}</div>
-                                <div className="text-sm text-gray-500">{user.email}</div>
+                                <div className="text-sm font-medium text-gray-900">
+                                  {user.name}
+                                </div>
+                                <div className="text-sm text-gray-500">
+                                  {user.email}
+                                </div>
                               </div>
                             </div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="text-sm text-gray-900">{user.phone}</div>
+                            <div className="text-sm text-gray-900">
+                              {user.phone}
+                            </div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
-                            <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                              user.role === 1 
-                                ? "bg-purple-100 text-purple-800" 
-                                : "bg-green-100 text-green-800"
-                            }`}>
+                            <span
+                              className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                                user.role === 1
+                                  ? "bg-purple-100 text-purple-800"
+                                  : "bg-green-100 text-green-800"
+                              }`}
+                            >
                               {user.role === 1 ? "Admin" : "Customer"}
                             </span>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {moment(user.createdAt).format('MMM DD, YYYY')}
+                            {moment(user.createdAt).format("MMM DD, YYYY")}
                           </td>
                         </tr>
                       ))}
@@ -245,10 +301,13 @@ const Users = () => {
       </div>
 
       {isModalOpen && selectedUser && (
-        <UserModal user={selectedUser} onClose={() => {
-          setIsModalOpen(false);
-          setSelectedUser(null);
-        }} />
+        <UserModal
+          user={selectedUser}
+          onClose={() => {
+            setIsModalOpen(false);
+            setSelectedUser(null);
+          }}
+        />
       )}
     </Layout>
   );

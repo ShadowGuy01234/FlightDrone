@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { API_URL } from "../api";
-import {toast}from "react-toastify";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../Context/cart";
 import { motion, AnimatePresence } from "framer-motion";
@@ -17,7 +17,11 @@ const Store = () => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [category, setCategory] = useState(['Drone', '3D-Printing-Object', 'IOT-component']);
+  const [category, setCategory] = useState([
+    "Drone",
+    "3D-Printing-Object",
+    "IOT-component",
+  ]);
   const [checked, setChecked] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -49,7 +53,7 @@ const Store = () => {
     try {
       setLoading(true);
       const response = await axios.get(`${API_URL}/api/product/get-product`);
-      
+
       if (response?.data?.success) {
         setProducts(response.data.products);
         setFilteredProducts(response.data.products);
@@ -81,14 +85,14 @@ const Store = () => {
 
     // Apply search filter
     if (searchTerm) {
-      tempProducts = tempProducts.filter(
-        prod => prod.name.toLowerCase().includes(searchTerm.toLowerCase())
+      tempProducts = tempProducts.filter((prod) =>
+        prod.name.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
 
     // Apply category filter
     if (checked.length > 0) {
-      tempProducts = tempProducts.filter(prod => 
+      tempProducts = tempProducts.filter((prod) =>
         checked.includes(prod.category._id)
       );
     }
@@ -97,7 +101,7 @@ const Store = () => {
     if (radio.length > 0) {
       const [min, max] = radio;
       tempProducts = tempProducts.filter(
-        prod => prod.price >= min && prod.price <= max
+        (prod) => prod.price >= min && prod.price <= max
       );
     }
 
@@ -123,19 +127,41 @@ const Store = () => {
   // Enhanced add to cart function
   const handleAddToCart = (product) => {
     try {
-      const existingProductIndex = cart.findIndex((item) => item._id === product._id);
+      const existingProductIndex = cart.findIndex(
+        (item) => item._id === product._id
+      );
       let updatedCart;
 
       if (existingProductIndex >= 0) {
         updatedCart = cart.map((item, index) =>
-          index === existingProductIndex 
-            ? { ...item, quantity: (item.quantity || 1) + 1 } 
+          index === existingProductIndex
+            ? { ...item, quantity: (item.quantity || 1) + 1 }
             : item
         );
-        toast.success(`Increased ${product.name} quantity in cart`);
+        toast.success(`Increased ${product.name} quantity in cart`, {
+          style: {
+            border: '1px solid #713200',
+            padding: '16px',
+            color: '#713200',
+          },
+          iconTheme: {
+            primary: '#713200',
+            secondary: '#FFFAEE',
+          },
+        });
       } else {
         updatedCart = [...cart, { ...product, quantity: 1 }];
-        toast.success(`${product.name} added to cart`);
+        toast.success(`${product.name} added to cart`, {
+          style: {
+            border: '1px solid #713200',
+            padding: '16px',
+            color: '#713200',
+          },
+          iconTheme: {
+            primary: '#713200',
+            secondary: '#FFFAEE',
+          },
+        });
       }
 
       setCart(updatedCart);
@@ -149,13 +175,16 @@ const Store = () => {
   // Pagination logic
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+  const currentProducts = filteredProducts.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 
   const handlePageChange = (pageNumber) => {
     if (pageNumber < 1 || pageNumber > totalPages) return;
     setCurrentPage(pageNumber);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const PaginationControls = () => (
@@ -167,21 +196,21 @@ const Store = () => {
       >
         Previous
       </button>
-      
+
       {[...Array(totalPages)].map((_, index) => (
         <button
           key={index + 1}
           onClick={() => handlePageChange(index + 1)}
           className={`px-4 py-2 rounded-lg ${
             currentPage === index + 1
-              ? 'bg-blue-600 text-white'
-              : 'bg-gray-200 hover:bg-gray-300'
+              ? "bg-blue-600 text-white"
+              : "bg-gray-200 hover:bg-gray-300"
           }`}
         >
           {index + 1}
         </button>
       ))}
-      
+
       <button
         onClick={() => handlePageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
@@ -201,11 +230,9 @@ const Store = () => {
   }
 
   return (
-    
     <div>
       {/* <MainComponent /> */}
       <div className="w-full px-4 py-8">
-        
         {/* Main content container with filters and products */}
         <div className="flex flex-col md:flex-row gap-6">
           {/* Left sidebar filters */}
@@ -214,7 +241,9 @@ const Store = () => {
               <div className="space-y-8">
                 {/* Categories Section */}
                 <div>
-                  <h6 className="text-lg font-medium text-gray-900 mb-4">Categories</h6>
+                  <h6 className="text-lg font-medium text-gray-900 mb-4">
+                    Categories
+                  </h6>
                   <div className="space-y-3">
                     {categories.map((cat) => (
                       <div key={cat._id} className="flex items-center">
@@ -225,7 +254,7 @@ const Store = () => {
                           checked={checked.includes(cat._id)}
                           onChange={() => {
                             const updatedChecked = checked.includes(cat._id)
-                              ? checked.filter(c => c !== cat._id)
+                              ? checked.filter((c) => c !== cat._id)
                               : [...checked, cat._id];
                             setChecked(updatedChecked);
                           }}
@@ -243,8 +272,10 @@ const Store = () => {
 
                 {/* Price Range Section */}
                 <div>
-                  <h6 className="text-lg font-medium text-gray-900 mb-4">Price Range</h6>
-                  <Radio.Group 
+                  <h6 className="text-lg font-medium text-gray-900 mb-4">
+                    Price Range
+                  </h6>
+                  <Radio.Group
                     onChange={(e) => setRadio(e.target.value)}
                     value={radio}
                     className="space-y-3"
@@ -289,7 +320,7 @@ const Store = () => {
                   className="w-full"
                 />
               </div>
-              
+
               <div className="flex gap-4">
                 <Select
                   defaultValue="default"
@@ -304,7 +335,7 @@ const Store = () => {
                 </Select>
 
                 {/* Mobile filter button */}
-                <button 
+                <button
                   onClick={() => setIsModalVisible(true)}
                   className="md:hidden flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
                 >
@@ -313,7 +344,7 @@ const Store = () => {
               </div>
             </div>
 
-            <motion.h2 
+            <motion.h2
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               className="text-3xl font-bold text-center mb-8"
@@ -322,9 +353,11 @@ const Store = () => {
             </motion.h2>
 
             {products.length === 0 ? (
-              <div className="text-center text-gray-500">No products available</div>
+              <div className="text-center text-gray-500">
+                No products available
+              </div>
             ) : (
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 px-4"
@@ -343,7 +376,7 @@ const Store = () => {
                           New
                         </span>
                       </div>
-                      
+
                       <div className="relative h-48 overflow-hidden bg-gray-100">
                         <img
                           src={product.image}
@@ -366,7 +399,7 @@ const Store = () => {
                       <h3 className="text-lg font-medium text-gray-800">
                         {product.name}
                       </h3>
-                      
+
                       <div className="mt-2 mb-4">
                         <span className="text-xl font-semibold text-gray-900">
                           ₹{product.price.toLocaleString()}
@@ -420,8 +453,8 @@ const Store = () => {
         open={isModalVisible}
         onCancel={() => setIsModalVisible(false)}
         footer={[
-          <button 
-            key="reset" 
+          <button
+            key="reset"
             className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 mr-2"
             onClick={() => {
               setChecked([]);
@@ -437,7 +470,7 @@ const Store = () => {
             onClick={() => setIsModalVisible(false)}
           >
             Apply
-          </button>
+          </button>,
         ]}
       >
         <div className="space-y-6">
@@ -452,7 +485,7 @@ const Store = () => {
                   checked={checked.includes(cat._id)}
                   onChange={() => {
                     const updatedChecked = checked.includes(cat._id)
-                      ? checked.filter(c => c !== cat._id)
+                      ? checked.filter((c) => c !== cat._id)
                       : [...checked, cat._id];
                     setChecked(updatedChecked);
                   }}
@@ -464,16 +497,14 @@ const Store = () => {
 
           <div>
             <h6 className="font-semibold mb-3">Price Range</h6>
-            <Radio.Group 
+            <Radio.Group
               onChange={(e) => setRadio(e.target.value)}
               value={radio}
             >
               <div className="space-y-2">
                 {Prices.map((p) => (
                   <div key={p.id}>
-                    <Radio value={p.array}>
-                      {p.name}
-                    </Radio>
+                    <Radio value={p.array}>{p.name}</Radio>
                   </div>
                 ))}
               </div>
@@ -481,11 +512,7 @@ const Store = () => {
           </div>
         </div>
       </Modal>
-
-      
     </div>
-
-    
   );
 };
 

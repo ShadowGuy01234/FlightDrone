@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import Layout from "../../components/Layout/Layout";
 import AdminMenu from "../../components/Layout/AdminMenu";
 import axios from "axios";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import { API_URL } from "../../api";
-import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa';
-import { MdClose } from 'react-icons/md';
+import { FaPlus, FaEdit, FaTrash } from "react-icons/fa";
+import { MdClose } from "react-icons/md";
 
 const CreateCategory = () => {
   const [categories, setCategories] = useState([]);
@@ -35,7 +35,17 @@ const CreateCategory = () => {
           { name }
         );
         if (data.success) {
-          toast.success("Category updated successfully");
+          toast.success("Category updated successfully", {
+            style: {
+              border: '1px solid #713200',
+              padding: '16px',
+              color: '#713200',
+            },
+            iconTheme: {
+              primary: '#713200',
+              secondary: '#FFFAEE',
+            },
+          });
           setUpdateId(null);
         }
       } else {
@@ -44,7 +54,17 @@ const CreateCategory = () => {
           { name }
         );
         if (data.success) {
-          toast.success("Category created successfully");
+          toast.success("Category created successfully", {
+            style: {
+              border: '1px solid #713200',
+              padding: '16px',
+              color: '#713200',
+            },
+            iconTheme: {
+              primary: '#713200',
+              secondary: '#FFFAEE',
+            },
+          });
         }
       }
       setName("");
@@ -52,20 +72,34 @@ const CreateCategory = () => {
       getallCategory();
     } catch (error) {
       console.log(error);
-      toast.error(updateId ? "Error updating category" : "Error creating category");
+      toast.error(
+        updateId ? "Error updating category" : "Error creating category"
+      );
     }
   };
 
   const handleDeleteCategory = async (id) => {
     try {
-      const confirmed = window.confirm("Are you sure you want to delete this category?");
+      const confirmed = window.confirm(
+        "Are you sure you want to delete this category?"
+      );
       if (!confirmed) return;
 
       const { data } = await axios.delete(
         `${API_URL}/api/category/delete-category/${id}`
       );
       if (data.success) {
-        toast.success("Category deleted successfully");
+        toast.success("Category deleted successfully", {
+          style: {
+            border: '1px solid #713200',
+            padding: '16px',
+            color: '#713200',
+          },
+          iconTheme: {
+            primary: '#713200',
+            secondary: '#FFFAEE',
+          },
+        });
         getallCategory();
       }
     } catch (error) {
@@ -80,7 +114,7 @@ const CreateCategory = () => {
     setIsModalOpen(true);
   };
 
-  const filteredCategories = categories.filter(cat =>
+  const filteredCategories = categories.filter((cat) =>
     cat.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -89,16 +123,21 @@ const CreateCategory = () => {
   }, []);
 
   return (
-    <Layout title={"Manage Categories"} description={"Create, Update, and Delete Categories"}>
+    <Layout
+      title={"Manage Categories"}
+      description={"Create, Update, and Delete Categories"}
+    >
       <div className="flex flex-col md:flex-row min-h-screen bg-gray-50">
         <div className="md:w-1/4 bg-white shadow-md">
           <AdminMenu />
         </div>
-        
+
         <div className="md:w-3/4 p-6">
           <div className="bg-white rounded-lg shadow-md p-6">
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-gray-800">Categories Management</h2>
+              <h2 className="text-2xl font-bold text-gray-800">
+                Categories Management
+              </h2>
               <button
                 onClick={() => {
                   setName("");
@@ -135,7 +174,10 @@ const CreateCategory = () => {
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
                   {filteredCategories.map((cat) => (
-                    <tr key={cat._id} className="hover:bg-gray-50 transition-colors duration-200">
+                    <tr
+                      key={cat._id}
+                      className="hover:bg-gray-50 transition-colors duration-200"
+                    >
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                         {cat.name}
                       </td>
@@ -172,11 +214,11 @@ const CreateCategory = () => {
             >
               <MdClose size={24} />
             </button>
-            
+
             <h2 className="text-2xl font-bold mb-6 text-gray-800">
               {updateId ? "Update Category" : "Create New Category"}
             </h2>
-            
+
             <form onSubmit={handleSubmit}>
               <div className="mb-6">
                 <label
@@ -196,7 +238,7 @@ const CreateCategory = () => {
                   required
                 />
               </div>
-              
+
               <div className="flex justify-end gap-4">
                 <button
                   type="button"

@@ -2,17 +2,24 @@ import Layout from "../../components/Layout/Layout";
 import UserMenu from "../../components/Layout/UserMenu";
 import { useState, useEffect } from "react";
 import { useAuth } from "../../Context/auth";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import axios from "axios";
 import { API_URL } from "../../api";
-import { FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt, FaEdit, FaTimes } from 'react-icons/fa';
+import {
+  FaUser,
+  FaEnvelope,
+  FaPhone,
+  FaMapMarkerAlt,
+  FaEdit,
+  FaTimes,
+} from "react-icons/fa";
 
 const Profile = () => {
   const { auth, setAuth } = useAuth();
   const [showEditModal, setShowEditModal] = useState(false);
   const [editingField, setEditingField] = useState(null);
   const [loading, setLoading] = useState(false);
-  
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -40,9 +47,9 @@ const Profile = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      
+
       // Validation
-      if (editingField === 'phone' && !/^\d{10}$/.test(formData.phone)) {
+      if (editingField === "phone" && !/^\d{10}$/.test(formData.phone)) {
         toast.error("Please enter a valid 10-digit phone number");
         return;
       }
@@ -57,7 +64,6 @@ const Profile = () => {
         }
       );
       console.log(data);
-      
 
       if (data?.success) {
         setAuth({ ...auth, user: data.updatedUser });
@@ -65,7 +71,17 @@ const Profile = () => {
         ls = JSON.parse(ls);
         ls.user = data.updatedUser;
         localStorage.setItem("auth", JSON.stringify(ls));
-        toast.success("Profile updated successfully");
+        toast.success("Profile updated successfully", {
+          style: {
+            border: '1px solid #713200',
+            padding: '16px',
+            color: '#713200',
+          },
+          iconTheme: {
+            primary: '#713200',
+            secondary: '#FFFAEE',
+          },
+        });
         setShowEditModal(false);
       }
     } catch (error) {
@@ -81,7 +97,7 @@ const Profile = () => {
       <div className="flex justify-between items-start mb-2">
         <label className="text-gray-600 font-medium">{label}</label>
         {canEdit && (
-          <button 
+          <button
             onClick={() => {
               setEditingField(field);
               setShowEditModal(true);
@@ -106,29 +122,31 @@ const Profile = () => {
                 <div className="bg-white p-3 rounded-full">
                   <FaUser className="text-blue-500 text-xl" />
                 </div>
-                <h1 className="text-2xl font-bold text-white">Profile Details</h1>
+                <h1 className="text-2xl font-bold text-white">
+                  Profile Details
+                </h1>
               </div>
             </div>
 
             <div className="p-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <InfoCard 
+                <InfoCard
                   label="Full Name"
                   value={auth?.user?.name}
                   field="name"
                 />
-                <InfoCard 
+                <InfoCard
                   label="Email Address"
                   value={auth?.user?.email}
                   field="email"
                   canEdit={false}
                 />
-                <InfoCard 
+                <InfoCard
                   label="Phone Number"
                   value={auth?.user?.phone}
                   field="phone"
                 />
-                <InfoCard 
+                <InfoCard
                   label="Address"
                   value={auth?.user?.address}
                   field="address"
@@ -145,19 +163,20 @@ const Profile = () => {
           <div className="bg-white rounded-xl max-w-md w-full mx-4 shadow-xl">
             <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-4 rounded-t-xl flex justify-between items-center">
               <h3 className="text-xl font-semibold text-white">
-                Edit {editingField.charAt(0).toUpperCase() + editingField.slice(1)}
+                Edit{" "}
+                {editingField.charAt(0).toUpperCase() + editingField.slice(1)}
               </h3>
-              <button 
+              <button
                 onClick={() => setShowEditModal(false)}
                 className="text-white hover:text-gray-200"
               >
                 <FaTimes size={20} />
               </button>
             </div>
-            
+
             <form onSubmit={handleSubmit} className="p-6">
               <div className="mb-6">
-                {editingField === 'address' ? (
+                {editingField === "address" ? (
                   <textarea
                     name={editingField}
                     value={formData[editingField]}
@@ -168,7 +187,7 @@ const Profile = () => {
                   />
                 ) : (
                   <input
-                    type={editingField === 'phone' ? 'tel' : 'text'}
+                    type={editingField === "phone" ? "tel" : "text"}
                     name={editingField}
                     value={formData[editingField]}
                     onChange={handleChange}
@@ -193,7 +212,9 @@ const Profile = () => {
                 >
                   {loading ? (
                     <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  ) : 'Save Changes'}
+                  ) : (
+                    "Save Changes"
+                  )}
                 </button>
               </div>
             </form>
