@@ -1,34 +1,21 @@
-import React, { useState, useEffect } from 'react'; // Import useState and useEffect
-
+import React, { useState, useEffect } from "react"; // Import useState and useEffect
+import { motion } from "framer-motion";
+import { ArrowRight, Clock } from "lucide-react";
 
 const ProductAdCard = () => {
   const [product, setProduct] = useState(null); // State for product data
-  const [isHovered, setIsHovered] = useState(false); // State for hover effect
 
-  // Commented out backend fetch logic for future use
-  /*
-  useEffect(() => {
-    const fetchProductData = async () => {
-      try {
-        const response = await fetch('/api/products/1'); // Adjust the endpoint as needed
-        const data = await response.json();
-        setProduct(data);
-      } catch (error) {
-        console.error('Error fetching product data:', error);
-      }
-    };
-
-    fetchProductData();
-  }, []);
-  */
-
-  // temperory
   const productData = {
-    name: "**** DRONE",
-    price: "₹ ****",
-    description: "***********Offer***************",
-    flightTime: "Flight Time up to 20 mins*",
-    imageUrl: "/ad.png" 
+    name: "Professional Drone X1",
+    price: "₹49,999",
+    description: "Limited Time Offer - 20% Off",
+    features: [
+      "4K Ultra HD Camera",
+      "45 Minutes Flight Time",
+      "5KM Range",
+      "GPS Navigation",
+    ],
+    imageUrl: "/ad.png",
   };
 
   // Temp
@@ -36,64 +23,84 @@ const ProductAdCard = () => {
     setProduct(productData);
   }, []);
 
-  
-  const handleMouseEnter = () => setIsHovered(true);
-  const handleMouseLeave = () => setIsHovered(false);
-
-  
   if (!product) {
-    return <div>Loading...</div>; 
+    return <div>Loading...</div>;
   }
 
   return (
-    <div className="flex justify-center items-center mt-10 pb-20">
-      <div className="bg-white shadow-lg rounded-lg overflow-hidden flex flex-col lg:flex-row w-[95%] max-w-5xl p-8">
-        <div className="lg:w-1/2 p-5">
-          <h2 className="text-4xl font-bold text-black mb-2">{product.name}</h2>
-          <p className="text-lg font-semibold text-gray-700">{product.price}</p>
-          <p className="text-sm text-gray-600 mb-4">
-            {product.description}
-          </p>
-          <p className="text-sm text-gray-800 font-semibold mb-4">
-            - {product.flightTime} -
-          </p>
+    <div className="bg-gradient-to-b from-gray-50 to-white py-24">
+      <div className="container mx-auto px-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="max-w-6xl mx-auto bg-white rounded-3xl shadow-xl overflow-hidden"
+        >
+          <div className="grid md:grid-cols-2 gap-8 p-8">
+            {/* Content Section */}
+            <div className="space-y-6">
+              <div className="inline-flex items-center px-4 py-2 bg-blue-50 text-blue-600 rounded-full text-sm font-medium">
+                <Clock className="w-4 h-4 mr-2" />
+                Limited Time Offer
+              </div>
 
-         
-          <div className="flex justify-center items-center space-x-4 mt-6">
-            <a href="/learn-more">
-              <button className="border border-black text-black px-6 py-2 rounded-full hover:bg-black hover:text-white transition duration-300">
-                Learn more
-              </button>
-            </a>
-            <a href="/order-now">
-              <button className="bg-black text-white px-6 py-2 rounded-full hover:bg-gray-800 transition duration-300">
-                Order Now
-              </button>
-            </a>
-          </div>
-        </div>
+              <h2 className="text-4xl font-bold text-gray-900">
+                {product.name}
+              </h2>
+              <p className="text-3xl font-bold text-blue-600">
+                {product.price}
+              </p>
 
-        <div className="lg:w-1/2">
-          <div
-            className="image-container"
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            style={{ overflow: 'hidden', maxWidth: '500px', maxHeight: '300px', margin: '0 auto' }} // Limit size of the image container
-          >
-            <img
-              src={product.imageUrl} 
-              alt={product.name}
-              className="drone-image"
-              style={{
-                width: '100%',
-                height: 'auto',
-                objectFit: 'cover',
-                transition: 'transform 0.5s ease-in-out',
-                transform: isHovered ? 'rotate(15deg) scale(1.05)' : 'rotate(0deg) scale(1)',
-              }} 
-            />
+              <p className="text-lg text-gray-600">{product.description}</p>
+
+              <div className="space-y-3">
+                {product.features.map((feature, index) => (
+                  <div key={index} className="flex items-center text-gray-700">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full mr-3" />
+                    {feature}
+                  </div>
+                ))}
+              </div>
+
+              <div className="flex gap-4 pt-6">
+                <motion.a
+                  href="/learn-more"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="px-8 py-4 border border-gray-300 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-colors"
+                >
+                  Learn More
+                </motion.a>
+                <motion.a
+                  href="/order-now"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="px-8 py-4 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors flex items-center gap-2"
+                >
+                  Order Now
+                  <ArrowRight className="w-5 h-5" />
+                </motion.a>
+              </div>
+            </div>
+
+            {/* Image Section */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}
+              className="relative"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-purple-600/20 rounded-3xl blur-3xl"></div>
+              <motion.img
+                src={product.imageUrl}
+                alt={product.name}
+                className="relative w-full h-[400px] object-contain"
+                whileHover={{ scale: 1.05, rotate: 5 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              />
+            </motion.div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );

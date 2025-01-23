@@ -1,5 +1,5 @@
 // import React, { useState, useEffect } from 'react';
-import './Hero.css';
+import "./Hero.css";
 
 // const Hero = () => {
 //   const images = [
@@ -46,7 +46,6 @@ import './Hero.css';
 //         ))}
 //       </div>
 
-     
 //       <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2 flex space-x-4 z-20">
 //         <a href={images[currentIndex].learnMoreUrl}>
 //           <button className="border border-white text-white bg-transparent rounded-full px-6 py-2 hover:bg-white hover:text-black transition duration-300 ease-in-out">
@@ -90,17 +89,15 @@ import './Hero.css';
 
 // export default Hero;
 
-
-
-
-
+import React from "react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import React from "react";
 import Image1 from "../../../assets/ser.png";
 import Image2 from "../../../assets/sensors.png";
 import Image3 from "../../../assets/001.png";
 import Slider from "react-slick";
+import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
 
 const ImageList = [
   {
@@ -108,93 +105,100 @@ const ImageList = [
     img: Image1,
     title: "Upto 50% off on all Drone Components",
     description:
-      "lorem His Life will forever be Changed dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "Discover our premium selection of drone parts and components at unbeatable prices. Limited time offer!",
+    buttonText: "Shop Now",
   },
   {
     id: 2,
     img: Image2,
     title: "30% off on all IoT Items",
     description:
-      "Who's there lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "Explore our cutting-edge IoT devices and sensors. Transform your ideas into smart solutions.",
+    buttonText: "Explore IoT",
   },
   {
     id: 3,
     img: Image3,
-    title: "70% off on all Products Sale",
+    title: "70% off on all Products",
     description:
-      "consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "Don't miss out on our biggest sale of the year. Premium quality at amazing prices.",
+    buttonText: "View Deals",
   },
 ];
 
 const Hero = ({ handleOrderPopup }) => {
-  var settings = {
-    dots: false,
+  const settings = {
+    dots: true,
     arrows: false,
     infinite: true,
     speed: 800,
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 4000,
-    cssEase: "ease-in-out",
+    cssEase: "cubic-bezier(0.87, 0, 0.13, 1)",
     pauseOnHover: false,
     pauseOnFocus: true,
+    customPaging: () => (
+      <div className="w-3 h-3 bg-gray-300 rounded-full mt-8 hover:bg-blue-600 transition-colors"></div>
+    ),
   };
 
   return (
-    <div className="relative overflow-hidden min-h-[550px] sm:min-h-[650px] bg-gray-100 flex justify-center items-center duration-200">
-      {/* background pattern */}
-      <div id='custom-mobile-style' className="h-[700px] w-[700px] bg-zinc-500 absolute -top-1/2 right-0 rounded-3xl rotate-45 -z[8] " ></div>
-      {/* hero section */}
-      <div className="container pb-8 sm:pb-0">
+    <div className="relative overflow-hidden min-h-[650px] bg-gradient-to-b from-gray-50 to-white">
+      <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-5"></div>
+
+      <div className="container mx-auto px-4">
         <Slider {...settings}>
           {ImageList.map((data) => (
-            <div>
-              <div className="grid grid-cols-1 sm:grid-cols-2">
-                {/* text content section */}
-                <div className="flex flex-col justify-center gap-4 pt-12 sm:pt-0 text-center sm:text-left order-2 sm:order-1 relative z-10">
-                  <h1
-                    data-aos="zoom-out"
-                    data-aos-duration="500"
-                    data-aos-once="true"
-                    className="text-5xl sm:text-6xl lg:text-7xl font-bold"
-                  >
+            <div key={data.id} className="outline-none">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center py-12">
+                {/* Content Section */}
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5 }}
+                  className="space-y-8"
+                >
+                  <h1 className="text-4xl md:text-6xl font-bold text-gray-900 leading-tight">
                     {data.title}
                   </h1>
-                  <p
-                    data-aos="fade-up"
-                    data-aos-duration="500"
-                    data-aos-delay="100"
-                    className="text-sm"
-                  >
+                  <p className="text-lg text-gray-600 max-w-lg">
                     {data.description}
                   </p>
-                  <div
-                    data-aos="fade-up"
-                    data-aos-duration="500"
-                    data-aos-delay="300"
-                  >
-                    <button
+                  <div className="flex gap-4">
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
                       onClick={handleOrderPopup}
-                      className="bg-gradient-to-r from-primary to-secondary hover:scale-105 duration-200 text-black py-2 px-4 rounded-full border border-black"
+                      className="px-8 py-4 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors flex items-center gap-2"
                     >
-                      Order Now
-                    </button>
+                      {data.buttonText}
+                      <ArrowRight className="w-5 h-5" />
+                    </motion.button>
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="px-8 py-4 border border-gray-300 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-colors"
+                    >
+                      Learn More
+                    </motion.button>
                   </div>
-                </div>
-                {/* image section */}
-                <div className="order-1 sm:order-2">
-                  <div
-                    data-aos="zoom-in"
-                    data-aos-once="true"
-                    className="relative z-10"
-                  >
-                    <img
-                      src={data.img}
-                      alt=""
-                      className="w-[300px] h-[300px] sm:h-[450px] sm:w-[450px] sm:scale-105 lg:scale-120 object-contain mx-auto"
-                    />
-                  </div>
-                </div>
+                </motion.div>
+
+                {/* Image Section */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.5 }}
+                  className="relative"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-purple-600/20 rounded-3xl blur-3xl"></div>
+                  <img
+                    src={data.img}
+                    alt={data.title}
+                    className="relative w-full h-[400px] object-contain transform hover:scale-105 transition-transform duration-500"
+                  />
+                </motion.div>
               </div>
             </div>
           ))}

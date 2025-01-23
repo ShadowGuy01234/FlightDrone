@@ -67,9 +67,9 @@ const About = () => {
                 Meet Our Founder
               </h2>
               <p className="text-xl text-gray-600 leading-relaxed">
-                I'm Ankit Kumar Mishra, founder of Flytium Drone Private Limited
-                and a Ph.D. scholar at MMMUT, Gorakhpur. My passion lies in
-                advancing drone technology and its applications in modern
+                I am Ankit Kumar Mishra, founder of Flytium Drone Private
+                Limited and a Ph.D. scholar at MMMUT, Gorakhpur. My passion lies
+                in advancing drone technology and its applications in modern
                 industry.
               </p>
               <div className="flex gap-4 justify-center md:justify-start">
