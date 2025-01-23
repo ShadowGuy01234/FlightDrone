@@ -21,7 +21,8 @@ const CheckoutPage = () => {
   }, [auth?.token, navigate]);
 
   const totalAmount = () => {
-    return cart.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0)
+    return cart
+      .reduce((sum, item) => sum + item.price * (item.quantity || 1), 0)
       .toLocaleString("en-US", {
         style: "currency",
         currency: "INR",
@@ -30,18 +31,16 @@ const CheckoutPage = () => {
 
   const updateQuantity = (productId, newQuantity) => {
     if (newQuantity < 1) return;
-    
-    const updatedCart = cart.map(item => 
-      item._id === productId 
-        ? { ...item, quantity: newQuantity }
-        : item
+
+    const updatedCart = cart.map((item) =>
+      item._id === productId ? { ...item, quantity: newQuantity } : item
     );
     setCart(updatedCart);
     localStorage.setItem("Flytium", JSON.stringify(updatedCart));
   };
 
   const removeItem = (productId) => {
-    const updatedCart = cart.filter(item => item._id !== productId);
+    const updatedCart = cart.filter((item) => item._id !== productId);
     setCart(updatedCart);
     localStorage.setItem("Flytium", JSON.stringify(updatedCart));
   };
@@ -49,7 +48,10 @@ const CheckoutPage = () => {
   const handlePayment = async () => {
     try {
       setLoading(true);
-      const amount = cart.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
+      const amount = cart.reduce(
+        (sum, item) => sum + item.price * (item.quantity || 1),
+        0
+      );
 
       const response = await axios.post(
         `${API_URL}/api/payment/order`,
@@ -70,7 +72,7 @@ const CheckoutPage = () => {
         key: "rzp_test_mn0PTHHGYdjsI8",
         amount: response.data.order.amount,
         currency: response.data.order.currency,
-        name: "TechDrone Hub",
+        name: "Flytium",
         description: "Order Payment",
         image: "/logo.png",
         order_id: response.data.order.id,
@@ -134,7 +136,7 @@ const CheckoutPage = () => {
           className="max-w-4xl mx-auto"
         >
           <h1 className="text-3xl font-bold mb-8">Checkout</h1>
-          
+
           <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
             <h2 className="text-xl font-semibold mb-4">Shipping Address</h2>
             {auth?.user?.address ? (
@@ -176,27 +178,33 @@ const CheckoutPage = () => {
             </div>
             <div className="space-y-4">
               {cart.map((item) => (
-                <div key={item._id} className="flex items-center justify-between p-4 border rounded-lg">
+                <div
+                  key={item._id}
+                  className="flex items-center justify-between p-4 border rounded-lg"
+                >
                   <div className="flex items-center flex-1 justify-between">
-                   
                     <div className="ml-4 ">
-                        <div className=" flex">  <img
-                      src={item.image}
-                      alt={item.name}
-                      className="w-20 h-20 object-cover rounded"
-                      />
-                      <h3 className="font-medium text-lg flex items-center justify-center">{item.name}</h3>
+                      <div className=" flex">
+                        {" "}
+                        <img
+                          src={item.image}
+                          alt={item.name}
+                          className="w-20 h-20 object-cover rounded"
+                        />
+                        <h3 className="font-medium text-lg flex items-center justify-center">
+                          {item.name}
+                        </h3>
                       </div>
-
-                     
                     </div>
                     <div>
-                      <p className="text-gray-600">₹{item.price.toLocaleString()} × {item.quantity || 1}</p>
-                      <p className="font-semibold text-blue-600">
-                        Total: ₹{((item.price * (item.quantity || 1))).toLocaleString()}
+                      <p className="text-gray-600">
+                        ₹{item.price.toLocaleString()} × {item.quantity || 1}
                       </p>
-                      </div>
-                     
+                      <p className="font-semibold text-blue-600">
+                        Total: ₹
+                        {(item.price * (item.quantity || 1)).toLocaleString()}
+                      </p>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -209,7 +217,6 @@ const CheckoutPage = () => {
               </div>
             </div>
           </div>
-      
 
           <motion.button
             whileHover={{ scale: 1.02 }}
