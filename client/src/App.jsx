@@ -25,6 +25,10 @@ import ProductDetails from "./pages/ProductDetails";
 import About from "./pages/About";
 import Service from "./pages/Service";
 import { Toaster } from "react-hot-toast";
+import PrivacyPolicy from "./pages/Policies/PrivacyPolicy";
+import TermsConditions from "./pages/Policies/TermsConditions";
+import ShippingPolicy from "./pages/Policies/ShippingPolicy";
+import "./styles/globals.css";
 
 function App() {
   // added
@@ -60,6 +64,9 @@ function App() {
           </Route>
 
           <Route path="/product/:slug" element={<ProductDetails />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-conditions" element={<TermsConditions />} />
+          <Route path="/shipping-policy" element={<ShippingPolicy />} />
           <Route path="*" element={<Pagenotfound />} />
         </Routes>
         <Footer />
