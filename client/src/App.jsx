@@ -25,9 +25,10 @@ import ProductDetails from "./pages/ProductDetails";
 import About from "./pages/About";
 import Service from "./pages/Service";
 import { Toaster } from "react-hot-toast";
-import PrivacyPolicy from "./pages/Policies/PrivacyPolicy";
-import TermsConditions from "./pages/Policies/TermsConditions";
-import ShippingPolicy from "./pages/Policies/ShippingPolicy";
+import PrivacyPolicy from "./pages/Policy/PrivacyPolicy";
+import ShippingPolicy from "./pages/Policy/ShippingPolicy";
+import TermsConditions from "./pages/Policy/TermsConditions";
+
 import "./styles/globals.css";
 
 function App() {
