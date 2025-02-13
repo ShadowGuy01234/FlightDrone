@@ -30,6 +30,7 @@ import PrivacyPolicy from "./pages/policy/PrivacyPolicy";
 import ShippingPolicy from "./pages/policy/ShippingPolicy";
 import TermsConditions from "./pages/policy/TermsConditions";
 import "./styles/globals.css";
+import CategoryProducts from "./pages/CategoryProducts";
 
 function App() {
   // added
@@ -69,6 +70,7 @@ function App() {
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-conditions" element={<TermsConditions />} />
           <Route path="/shipping-policy" element={<ShippingPolicy />} />
+          <Route path="/category/:slug" element={<CategoryProducts />} />
           <Route path="*" element={<Pagenotfound />} />
         </Routes>
         <Footer />
