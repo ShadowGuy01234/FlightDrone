@@ -1,5 +1,6 @@
 import slugify from "slugify";
 import Product from "../models/Product.js";
+import Category from "../models/Category.js";
 
 export const createProductContoller = async (req, res) => {
   try {
@@ -96,6 +97,33 @@ export const deleteProductController = async (req, res) => {
     res.status(500).send({ message: 'Error deleting product', success: false, error });
   }
 }
+
+export const productCategoryController = async (req, res) => {
+  try {
+    const category = await Category.findOne({ slug: req.params.slug });
+    if (!category) {
+      return res.status(404).send({
+        success: false,
+        message: "Category not found",
+      });
+    }
+
+    const products = await Product.find({ category: category._id }).populate("category");
+
+    res.status(200).send({
+      success: true,
+      category,
+      products,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      error,
+      message: "Error while getting products by category",
+    });
+  }
+};
 
 
 
