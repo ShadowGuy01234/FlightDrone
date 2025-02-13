@@ -97,21 +97,37 @@ const Store = () => {
       );
     }
 
-    // Apply price range filter
+    // Apply price range filter - use discounted price if available
     if (radio.length > 0) {
       const [min, max] = radio;
-      tempProducts = tempProducts.filter(
-        (prod) => prod.price >= min && prod.price <= max
-      );
+      tempProducts = tempProducts.filter((prod) => {
+        const effectivePrice = prod.discountedPrice || prod.price;
+        return effectivePrice >= min && effectivePrice <= max;
+      });
     }
 
-    // Apply sorting
+    // Apply sorting - consider discounted price when sorting by price
     switch (sortBy) {
       case "price-asc":
-        tempProducts.sort((a, b) => a.price - b.price);
+        tempProducts.sort((a, b) => {
+          const priceA = a.discountedPrice || a.price;
+          const priceB = b.discountedPrice || b.price;
+          return priceA - priceB;
+        });
         break;
       case "price-desc":
-        tempProducts.sort((a, b) => b.price - a.price);
+        tempProducts.sort((a, b) => {
+          const priceA = a.discountedPrice || a.price;
+          const priceB = b.discountedPrice || b.price;
+          return priceB - priceA;
+        });
+        break;
+      case "discount-high":
+        tempProducts.sort((a, b) => {
+          const discountA = getDiscountPercentage(a);
+          const discountB = getDiscountPercentage(b);
+          return discountB - discountA;
+        });
         break;
       case "name-asc":
         tempProducts.sort((a, b) => a.name.localeCompare(b.name));
@@ -122,6 +138,16 @@ const Store = () => {
     }
 
     setFilteredProducts(tempProducts);
+  };
+
+  // Helper function to calculate discount percentage
+  const getDiscountPercentage = (product) => {
+    if (product.discountedPrice && product.price > product.discountedPrice) {
+      return Math.round(
+        ((product.price - product.discountedPrice) / product.price) * 100
+      );
+    }
+    return 0;
   };
 
   // Enhanced add to cart function
@@ -140,26 +166,26 @@ const Store = () => {
         );
         toast.success(`Increased ${product.name} quantity in cart`, {
           style: {
-            border: '1px solid #713200',
-            padding: '16px',
-            color: '#713200',
+            border: "1px solid #713200",
+            padding: "16px",
+            color: "#713200",
           },
           iconTheme: {
-            primary: '#713200',
-            secondary: '#FFFAEE',
+            primary: "#713200",
+            secondary: "#FFFAEE",
           },
         });
       } else {
         updatedCart = [...cart, { ...product, quantity: 1 }];
         toast.success(`${product.name} added to cart`, {
           style: {
-            border: '1px solid #713200',
-            padding: '16px',
-            color: '#713200',
+            border: "1px solid #713200",
+            padding: "16px",
+            color: "#713200",
           },
           iconTheme: {
-            primary: '#713200',
-            secondary: '#FFFAEE',
+            primary: "#713200",
+            secondary: "#FFFAEE",
           },
         });
       }
@@ -330,6 +356,7 @@ const Store = () => {
                   <Option value="default">Sort By</Option>
                   <Option value="price-asc">Price: Low to High</Option>
                   <Option value="price-desc">Price: High to Low</Option>
+                  <Option value="discount-high">Highest Discount</Option>
                   <Option value="name-asc">Name: A to Z</Option>
                   <Option value="name-desc">Name: Z to A</Option>
                 </Select>
@@ -400,10 +427,25 @@ const Store = () => {
                         {product.name}
                       </h3>
 
-                      <div className="mt-2 mb-4">
-                        <span className="text-xl font-semibold text-gray-900">
-                          ₹{product.price.toLocaleString()}
-                        </span>
+                      <div className="mt-2 mb-4 flex items-center gap-2">
+                        {product.discountedPrice &&
+                        product.price > product.discountedPrice ? (
+                          <>
+                            <span className="text-xl font-semibold text-gray-900">
+                              ₹{product.discountedPrice.toLocaleString()}
+                            </span>
+                            <span className="text-sm line-through text-gray-500">
+                              ₹{product.price.toLocaleString()}
+                            </span>
+                            <span className="text-sm font-semibold text-green-600 bg-green-100 px-2 py-1 rounded-full">
+                              {getDiscountPercentage(product)}% OFF
+                            </span>
+                          </>
+                        ) : (
+                          <span className="text-xl font-semibold text-gray-900">
+                            ₹{product.price.toLocaleString()}
+                          </span>
+                        )}
                       </div>
 
                       <div className="flex items-center mb-4">
