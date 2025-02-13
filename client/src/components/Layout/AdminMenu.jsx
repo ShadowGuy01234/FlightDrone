@@ -1,86 +1,83 @@
-import React from "react";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import Person3OutlinedIcon from "@mui/icons-material/Person3Outlined";
-import LocalGroceryStoreOutlinedIcon from "@mui/icons-material/LocalGroceryStoreOutlined";
-import CreditCardOutlinedIcon from "@mui/icons-material/CreditCardOutlined";
-import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
-import SlideshowOutlinedIcon from "@mui/icons-material/SlideshowOutlined";
-import "./sidebar.css";
+import {
+  FiGrid,
+  FiUsers,
+  FiShoppingBag,
+  FiCreditCard,
+  FiLayers,
+  FiMonitor,
+} from "react-icons/fi";
+import { motion } from "framer-motion";
 import { NavLink } from "react-router-dom";
+import "./sidebar.css";
+
+const menuItems = [
+  {
+    title: "MAIN",
+    items: [{ path: "/dashboard/admin", icon: <FiGrid />, label: "Dashboard" }],
+  },
+  {
+    title: "LISTS",
+    items: [
+      { path: "/dashboard/admin/users", icon: <FiUsers />, label: "Users" },
+      {
+        path: "/dashboard/admin/category",
+        icon: <FiLayers />,
+        label: "Category",
+      },
+      {
+        path: "/dashboard/admin/products",
+        icon: <FiShoppingBag />,
+        label: "Products",
+      },
+      {
+        path: "/dashboard/admin/orders",
+        icon: <FiCreditCard />,
+        label: "Orders",
+      },
+      {
+        path: "/dashboard/admin/hero",
+        icon: <FiMonitor />,
+        label: "Hero Slides",
+      },
+    ],
+  },
+];
 
 const Sidebar = () => {
   return (
-    <div className="sidebar">
-      <hr />
-      <div className="bottom">
-        <ul>
-          <p className="title">MAIN</p>
-          <NavLink
-            to="/dashboard/admin"
-            className={({ isActive }) => (isActive ? "active" : "")}
-            style={{ textDecoration: "none" }}
-          >
-            <li>
-              <DashboardIcon className="icon" />
-              <span>Dashboard</span>
-            </li>
-          </NavLink>
-
-          <p className="title">LISTS</p>
-          <NavLink
-            to="/dashboard/admin/users"
-            className={({ isActive }) => (isActive ? "active" : "")}
-            style={{ textDecoration: "none" }}
-          >
-            <li>
-              <Person3OutlinedIcon className="icon" />
-              <span>Users</span>
-            </li>
-          </NavLink>
-          <NavLink
-            to="/dashboard/admin/category"
-            className={({ isActive }) => (isActive ? "active" : "")}
-            style={{ textDecoration: "none" }}
-          >
-            <li>
-              <CategoryOutlinedIcon className="icon" />
-              <span>Category</span>
-            </li>
-          </NavLink>
-
-          <NavLink
-            to="/dashboard/admin/products"
-            className={({ isActive }) => (isActive ? "active" : "")}
-            style={{ textDecoration: "none" }}
-          >
-            <li>
-              <LocalGroceryStoreOutlinedIcon className="icon" />
-              <span>Products</span>
-            </li>
-          </NavLink>
-          <NavLink
-            to="/dashboard/admin/orders"
-            className={({ isActive }) => (isActive ? "active" : "")}
-            style={{ textDecoration: "none" }}
-          >
-            <li>
-              <CreditCardOutlinedIcon className="icon" />
-              <span>Orders</span>
-            </li>
-          </NavLink>
-          <NavLink
-            to="/dashboard/admin/hero"
-            className={({ isActive }) => (isActive ? "active" : "")}
-            style={{ textDecoration: "none" }}
-          >
-            <li>
-              <SlideshowOutlinedIcon className="icon" />
-              <span>Hero Slides</span>
-            </li>
-          </NavLink>
-        </ul>
+    <motion.div
+      className="sidebar"
+      initial={{ x: -300 }}
+      animate={{ x: 0 }}
+      transition={{ duration: 0.3 }}
+    >
+      <hr className="sidebar-divider" />
+      <div className="sidebar-content">
+        {menuItems.map((section, idx) => (
+          <div key={idx} className="menu-section">
+            <h3 className="section-title">{section.title}</h3>
+            {section.items.map((item, index) => (
+              <NavLink
+                key={index}
+                to={item.path}
+                className={({ isActive }) =>
+                  `menu-item ${isActive ? "active" : ""}`
+                }
+              >
+                <motion.div
+                  className="menu-item-content"
+                  whileHover={{ x: 5 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <span className="icon">{item.icon}</span>
+                  <span className="label">{item.label}</span>
+                </motion.div>
+              </NavLink>
+            ))}
+          </div>
+        ))}
       </div>
-    </div>
+    </motion.div>
   );
 };
 
