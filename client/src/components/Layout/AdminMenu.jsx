@@ -6,7 +6,7 @@ import CreditCardOutlinedIcon from "@mui/icons-material/CreditCardOutlined";
 import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
 import SlideshowOutlinedIcon from "@mui/icons-material/SlideshowOutlined";
 import "./sidebar.css";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const Sidebar = () => {
   return (
@@ -15,51 +15,69 @@ const Sidebar = () => {
       <div className="bottom">
         <ul>
           <p className="title">MAIN</p>
-          <Link to="/dashboard/admin" style={{ textDecoration: "none" }}>
+          <NavLink
+            to="/dashboard/admin"
+            className={({ isActive }) => (isActive ? "active" : "")}
+            style={{ textDecoration: "none" }}
+          >
             <li>
               <DashboardIcon className="icon" />
               <span>Dashboard</span>
             </li>
-          </Link>
+          </NavLink>
 
           <p className="title">LISTS</p>
-          <Link to="/dashboard/admin/users" style={{ textDecoration: "none" }}>
+          <NavLink
+            to="/dashboard/admin/users"
+            className={({ isActive }) => (isActive ? "active" : "")}
+            style={{ textDecoration: "none" }}
+          >
             <li>
               <Person3OutlinedIcon className="icon" />
               <span>Users</span>
             </li>
-          </Link>
-          <Link
+          </NavLink>
+          <NavLink
             to="/dashboard/admin/category"
+            className={({ isActive }) => (isActive ? "active" : "")}
             style={{ textDecoration: "none" }}
           >
             <li>
               <CategoryOutlinedIcon className="icon" />
               <span>Category</span>
             </li>
-          </Link>
+          </NavLink>
 
-          <Link
+          <NavLink
             to="/dashboard/admin/products"
+            className={({ isActive }) => (isActive ? "active" : "")}
             style={{ textDecoration: "none" }}
           >
             <li>
               <LocalGroceryStoreOutlinedIcon className="icon" />
               <span>Products</span>
             </li>
-          </Link>
-          <Link to="/dashboard/admin/orders" style={{ textDecoration: "none" }}>
+          </NavLink>
+          <NavLink
+            to="/dashboard/admin/orders"
+            className={({ isActive }) => (isActive ? "active" : "")}
+            style={{ textDecoration: "none" }}
+          >
             <li>
               <CreditCardOutlinedIcon className="icon" />
               <span>Orders</span>
             </li>
-          </Link>
-          <Link to="/dashboard/admin/hero" style={{ textDecoration: "none" }}>
+          </NavLink>
+          <NavLink
+            to="/dashboard/admin/hero"
+            className={({ isActive }) => (isActive ? "active" : "")}
+            style={{ textDecoration: "none" }}
+          >
             <li>
               <SlideshowOutlinedIcon className="icon" />
               <span>Hero Slides</span>
             </li>
-          </Link>
+          </NavLink>
         </ul>
       </div>
     </div>
