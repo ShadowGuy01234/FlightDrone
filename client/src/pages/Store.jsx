@@ -17,11 +17,6 @@ const Store = () => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [category, setCategory] = useState([
-    "Drone",
-    "3D-Printing-Object",
-    "IOT-component",
-  ]);
   const [checked, setChecked] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -90,10 +85,10 @@ const Store = () => {
       );
     }
 
-    // Apply category filter
+    // Apply category filter - make sure category exists before accessing _id
     if (checked.length > 0) {
       tempProducts = tempProducts.filter((prod) =>
-        checked.includes(prod.category._id)
+        checked.includes(prod.category?._id)
       );
     }
 
@@ -271,7 +266,7 @@ const Store = () => {
                     Categories
                   </h6>
                   <div className="space-y-3">
-                    {categories.map((cat) => (
+                    {categories?.map((cat) => (
                       <div key={cat._id} className="flex items-center">
                         <input
                           type="checkbox"
@@ -287,7 +282,7 @@ const Store = () => {
                         />
                         <label
                           htmlFor={`category-${cat._id}`}
-                          className="ml-3 text-sm text-gray-600 cursor-pointer"
+                          className="ml-3 text-sm text-gray-600 cursor-pointer hover:text-blue-500"
                         >
                           {cat.name}
                         </label>
@@ -519,7 +514,7 @@ const Store = () => {
           {/* Same filter content as sidebar */}
           <div>
             <h6 className="font-semibold mb-3">Categories</h6>
-            {categories.map((cat) => (
+            {categories?.map((cat) => (
               <div key={cat._id} className="flex items-center mb-2">
                 <input
                   type="checkbox"
