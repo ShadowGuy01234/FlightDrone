@@ -2,17 +2,15 @@ import Category from "../models/Category.js";
 import slugify from "slugify";
 export const createCategoryContoller = async (req, res) => {
     try {
-        const { name } = req.body
-        if (!name) {
-            return res.status(400).send({ message: 'Name is required' });
+        const { name, image } = req.body
+        if (!name || !image) {
+            return res.status(400).send({ message: 'Name and image are required' });
         }
         const existingCategory = await Category.findOne({ name });
         if (existingCategory) {
             return res.status(400).send({ message: 'Category already exists', success: true });
-
-
         }
-        const category = new Category({ name, slug: slugify(name) });
+        const category = new Category({ name, image, slug: slugify(name) });
         await category.save();
         res.status(201).send({
             success: true,
@@ -22,29 +20,25 @@ export const createCategoryContoller = async (req, res) => {
     }
     catch (error) {
         console.log(error)
-        res.status(500).send(
-            {
-                success: false,
-                message: 'Error creating category',
-                error
-            }
-        )
+        res.status(500).send({
+            success: false,
+            message: 'Error creating category',
+            error
+        })
     }
-
 }
 
 export const updateCategoryContoller = async (req, res) => {
-
     try {
-        const { name } = req.body;
+        const { name, image } = req.body;
         const { id } = req.params;
-        if (!name) {
-            return res.status(400).send({ message: 'Name is required' });
+        if (!name || !image) {
+            return res.status(400).send({ message: 'Name and image are required' });
         }
 
         const category = await Category.findByIdAndUpdate(
             id,
-            { name, slug: slugify(name) },
+            { name, image, slug: slugify(name) },
             { new: true });
         res.status(200).send({
             success: true,
@@ -54,13 +48,11 @@ export const updateCategoryContoller = async (req, res) => {
     }
     catch (error) {
         console.log(error)
-        res.status(500).send(
-            {
-                success: false,
-                message: 'Error updating category',
-                error
-            }
-        )
+        res.status(500).send({
+            success: false,
+            message: 'Error updating category',
+            error
+        })
     }
 }
 
