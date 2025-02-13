@@ -143,7 +143,7 @@ const ManageHero = () => {
 
   return (
     <Layout title="Manage Hero Slides - Admin Dashboard">
-      <div className="container mx-auto px-4 py-8">
+      <div className="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300">
         <div className="flex flex-col lg:flex-row gap-8">
           <div className="lg:w-1/4">
             <AdminMenu />
