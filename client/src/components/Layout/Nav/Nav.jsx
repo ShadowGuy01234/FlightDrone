@@ -132,6 +132,20 @@ const Navbar = () => {
           </li>
           <li>
             <NavLink
+              to="/career"
+              className={({ isActive }) =>
+                `text-sm font-medium transition-colors duration-200 ${
+                  isActive
+                    ? "text-blue-600"
+                    : "text-gray-700 hover:text-blue-600"
+                }`
+              }
+            >
+              CAREERS
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
               to="/store"
               className={({ isActive }) =>
                 `text-sm font-medium transition-colors duration-200 ${
@@ -293,6 +307,15 @@ const Navbar = () => {
                   onClick={() => setShowMobileMenu(false)}
                 >
                   SERVICES
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/career"
+                  className="block py-2 text-gray-700 hover:text-blue-600 transition-colors duration-200"
+                  onClick={() => setShowMobileMenu(false)}
+                >
+                  CAREERS
                 </Link>
               </li>
               <li>

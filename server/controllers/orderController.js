@@ -6,8 +6,8 @@ const RAZORPAY_KEY = process.env.RAZORPAY_KEY;
 const RAZORPAY_SECRET = process.env.RAZORPAY_SECRET;
 
 const razorpay = new Razorpay({
-  key_id: RAZORPAY_KEY,
-  key_secret: RAZORPAY_SECRET,
+  key_id: RAZORPAY_KEY || "rzp_test_placeholder",
+  key_secret: RAZORPAY_SECRET || "placeholder_secret",
 });
 
 // Create Razorpay order
@@ -34,7 +34,8 @@ export const verifyPayment = async (req, res) => {
     const { response, products, buyer, address, totalPrice } = req.body;
 
     // Verify payment signature
-    const body = response.razorpay_order_id + "|" + response.razorpay_payment_id;
+    const body =
+      response.razorpay_order_id + "|" + response.razorpay_payment_id;
     const expectedSignature = crypto
       .createHmac("sha256", RAZORPAY_SECRET)
       .update(body.toString())
@@ -55,10 +56,11 @@ export const verifyPayment = async (req, res) => {
 
       res.status(200).json({ success: true, order: newOrder });
     } else {
-      res.status(400).json({ success: false, message: "Payment verification failed" });
+      res
+        .status(400)
+        .json({ success: false, message: "Payment verification failed" });
     }
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
 };
-
