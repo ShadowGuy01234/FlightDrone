@@ -6,6 +6,10 @@ const heroSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
+        subtitle: {
+            type: String,
+            default: "Premium Technology",
+        },
         description: {
             type: String,
             required: true,
@@ -13,6 +17,10 @@ const heroSchema = new mongoose.Schema(
         buttonText: {
             type: String,
             required: true,
+        },
+        buttonLink: {
+            type: String,
+            default: "/store",
         },
         image: {
             type: String,
