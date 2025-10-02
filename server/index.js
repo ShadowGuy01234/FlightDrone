@@ -23,6 +23,7 @@ import adRoutes from "./routes/adRoutes.js";
 import employeeRoutes from "./routes/employeeRoutes.js";
 import jobRoutes from "./routes/jobRoutes.js";
 import seoRoutes from "./routes/seoRoutes.js";
+import contactRoutes from "./routes/contactRoutes.js";
 
 // Connect to the database
 connectDB();
@@ -49,6 +50,7 @@ app.use("/api/ad", adRoutes);
 app.use("/api/employee", employeeRoutes);
 app.use("/api/job", jobRoutes);
 app.use("/api/seo", seoRoutes);
+app.use("/api/contact", contactRoutes);
 // Start the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
