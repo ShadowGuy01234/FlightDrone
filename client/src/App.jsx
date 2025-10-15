@@ -31,6 +31,8 @@ import ShippingPolicy from "./pages/policy/ShippingPolicy";
 import TermsConditions from "./pages/policy/TermsConditions";
 import "./styles/globals.css";
 import CategoryProducts from "./pages/CategoryProducts";
+import ManageEmployees from "./pages/Admin/ManageEmployees";
+import Career from "./pages/Career";
 
 function App() {
   // added
@@ -52,6 +54,7 @@ function App() {
           <Route path="/services" element={<Service />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/cartpage" element={<CartPage />} />
+          <Route path="/career" element={<Career />} />
           <Route path="/dashboard" element={<Private />}>
             <Route path="user/orders" element={<Orders />} />
             <Route path="user/profile" element={<Profile />} />
@@ -64,6 +67,7 @@ function App() {
             <Route path="admin/orders" element={<AdminOrders />} />
             <Route path="admin/category" element={<CreateCategory />} />
             <Route path="admin/hero" element={<ManageHero />} />
+            <Route path="admin/employees" element={<ManageEmployees />} />
           </Route>
 
           <Route path="/product/:slug" element={<ProductDetails />} />

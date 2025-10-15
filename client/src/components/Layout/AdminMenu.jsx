@@ -5,6 +5,7 @@ import {
   FiCreditCard,
   FiLayers,
   FiMonitor,
+  FiUserCheck,
 } from "react-icons/fi";
 import { motion } from "framer-motion";
 import { NavLink } from "react-router-dom";
@@ -38,6 +39,11 @@ const menuItems = [
         path: "/dashboard/admin/hero",
         icon: <FiMonitor />,
         label: "Hero Slides",
+      },
+      {
+        path: "/dashboard/admin/employees",
+        icon: <FiUserCheck />,
+        label: "Team Members",
       },
     ],
   },
