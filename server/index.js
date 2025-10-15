@@ -13,6 +13,7 @@ dotenv.config({ path: path.join(__dirname, ".env") });
 import express from "express";
 import connectDB from "./config/db.js";
 import cors from "cors";
+import helmet from "helmet";
 import categoryRoutes from "./routes/categoryRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
@@ -30,14 +31,58 @@ connectDB();
 
 const app = express();
 
+// CORS Configuration for Production
 const corsOptions = {
-  origin: "http://localhost:5173/", // Frontend URL
-  methods: ["GET", "POST"],
-  allowedHeaders: ["Content-Type"],
+  origin: [
+    "https://www.flytiumdrones.com",
+    "https://flytiumdrones.com",
+    "http://localhost:5173", // Keep for local development
+    "http://localhost:5174",
+    "http://localhost:5175",
+  ],
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  exposedHeaders: ["Content-Range", "X-Content-Range"],
 };
 
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
+
+// Security middleware
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        connectSrc: [
+          "'self'",
+          "https://www.flytiumdrones.com",
+          "https://flight-drone-eta.vercel.app",
+        ],
+        imgSrc: ["'self'", "data:", "https:", "https://res.cloudinary.com"],
+        scriptSrc: [
+          "'self'",
+          "'unsafe-inline'",
+          "https://checkout.razorpay.com",
+        ],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+        frameSrc: ["'self'", "https://api.razorpay.com"],
+      },
+    },
+  })
+);
+
+// Force HTTPS in production
+app.use((req, res, next) => {
+  if (
+    process.env.NODE_ENV === "production" &&
+    req.headers["x-forwarded-proto"] !== "https"
+  ) {
+    return res.redirect("https://" + req.headers.host + req.url);
+  }
+  next();
+});
 
 // Define routes
 app.use("/api/auth", authRoutes);

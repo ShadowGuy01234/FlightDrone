@@ -4,7 +4,7 @@ import Category from "../models/Category.js";
 // Generate dynamic sitemap XML
 export const generateSitemap = async (req, res) => {
   try {
-    const baseURL = "https://flytiumdrones.com";
+    const baseURL = "https://www.flytiumdrones.com";
     const currentDate = new Date().toISOString().split("T")[0];
 
     // Fetch all active products
